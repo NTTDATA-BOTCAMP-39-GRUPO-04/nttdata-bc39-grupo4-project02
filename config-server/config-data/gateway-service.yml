@@ -23,10 +23,10 @@ spring:
         uri: lb://movements-service
 
     discovery:
-      enabled: 'true'
+      enabled: true
     loadbalancer:
       ribbon:
-        enable: 'false'
+        enable: false
 
 #Eureka
 eureka:
