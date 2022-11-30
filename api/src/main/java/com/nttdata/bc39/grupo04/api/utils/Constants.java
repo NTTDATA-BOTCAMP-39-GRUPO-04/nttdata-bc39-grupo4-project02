@@ -18,4 +18,5 @@ public final class Constants {
     public static final int MAX_DEPOSIT_AMOUNT = 15000;
     public static final int MIN_WITHDRAWAL_AMOUNT = 1;
     public static final int MAX_WITHDRAWAL_AMOUNT = 5000;
+
 }

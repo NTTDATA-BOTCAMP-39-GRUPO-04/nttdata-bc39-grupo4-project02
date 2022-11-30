@@ -13,6 +13,7 @@
 		<module>movements-service</module>
 		<module>gateway-service</module>
 		<module>eureka-server</module>
+		<module>composite-service</module>
 	</modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>

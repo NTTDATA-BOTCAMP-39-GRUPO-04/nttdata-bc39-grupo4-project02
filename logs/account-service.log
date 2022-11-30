@@ -49,3 +49,9 @@
 [2022-11-29 18:25:58] [ DEBUG] [AccountServiceImpl:46] Error, no existe la cuenta bancaria con Nro:166966794769020221128
 [2022-11-29 18:26:04] [ DEBUG] [AccountServiceImpl:150] Data enviada para la creacion de cuenta, object= AccountDTO(account=null, productId=03, customerId=48352954, holders=null, signatories=null, availableBalance=0.0, createDate=null, modifyDate=null)
 [2022-11-29 18:26:11] [ DEBUG] [AccountServiceImpl:49] Retornando detalle de la cuenta bancaria con Nro:166976436452720221129
+[2022-11-30 09:36:38] [ DEBUG] [AccountServiceImpl:46] Error, no existe la cuenta bancaria con Nro:48352954
+[2022-11-30 09:37:24] [ DEBUG] [AccountServiceImpl:58] Retornando las cuentas bancarias del cliente con Nro:48352954
+[2022-11-30 09:37:46] [ DEBUG] [AccountServiceImpl:46] Error, no existe la cuenta bancaria con Nro:166966794769020221128
+[2022-11-30 09:38:12] [ DEBUG] [AccountServiceImpl:83] Error, no existe la cuenta con Nro: 166966794769020221128
+[2022-11-30 09:38:21] [ DEBUG] [AccountServiceImpl:100] Error, no existe la cuenta con Nro: 166966794769020221128
+[2022-11-30 09:38:49] [ DEBUG] [AccountServiceImpl:150] Data enviada para la creacion de cuenta, object= AccountDTO(account=null, productId=03, customerId=48352954, holders=null, signatories=null, availableBalance=0.0, createDate=null, modifyDate=null)
