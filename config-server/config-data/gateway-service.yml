@@ -23,8 +23,8 @@ spring:
         uri: lb://movements-service
 
       discovery:
-        enabled: true
         locator:
+          enabled: true
           lower-case-service-id: true
     loadbalancer:
       ribbon:
