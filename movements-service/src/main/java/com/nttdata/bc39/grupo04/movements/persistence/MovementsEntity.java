@@ -17,8 +17,8 @@ public class MovementsEntity {
     @Id
     private ObjectId id;
     private String number;
-    private double depositAmount;
-    private double withdrawlAmount;
+    private double transactionAmount;
+    private double availableAmount;
     private Date date;
 
 

@@ -9,9 +9,9 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class MovementsDTO {
     private String number;
-    private double amount;
+    private double transactionAmount;
+    private double availableAmount;
     private Date date;
 }

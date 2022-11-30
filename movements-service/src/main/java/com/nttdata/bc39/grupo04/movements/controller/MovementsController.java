@@ -1,7 +1,6 @@
 package com.nttdata.bc39.grupo04.movements.controller;
 
 import com.nttdata.bc39.grupo04.movements.dto.MovementsDTO;
-import com.nttdata.bc39.grupo04.movements.dto.MovementsExplainDTO;
 import com.nttdata.bc39.grupo04.movements.service.MovementsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ public class MovementsController {
 
 
     @GetMapping("/{number}")
-    Flux<MovementsExplainDTO> getAllMovementsByNumber(@PathVariable("number") String number) {
+    Flux<MovementsDTO> getAllMovementsByNumber(@PathVariable("number") String number) {
         return service.getAllMovementsByNumber(number);
     }
 

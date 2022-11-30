@@ -4,7 +4,6 @@ import com.nttdata.bc39.grupo04.api.exceptions.InvaliteInputException;
 import com.nttdata.bc39.grupo04.api.exceptions.NotFoundException;
 import com.nttdata.bc39.grupo04.api.utils.CodesEnum;
 import com.nttdata.bc39.grupo04.movements.dto.MovementsDTO;
-import com.nttdata.bc39.grupo04.movements.dto.MovementsExplainDTO;
 import com.nttdata.bc39.grupo04.movements.persistence.MovementsEntity;
 import com.nttdata.bc39.grupo04.movements.persistence.MovementsRepository;
 import org.apache.log4j.Logger;
@@ -36,35 +35,24 @@ public class MovementsServiceImpl implements MovementsService {
     public Mono<MovementsDTO> saveDepositMovement(MovementsDTO dto) {
         validationMovement(dto, CodesEnum.TYPE_DEPOSIT);
         MovementsEntity entity = mapper.dtoToEntity(dto);
-        entity.setDepositAmount(dto.getAmount());
-        entity.setWithdrawlAmount(0);
         entity.setDate(Calendar.getInstance().getTime());
         return repository.save(entity)
-                .map(x -> {
-                    MovementsDTO mDto = mapper.entityToDto(x);
-                    mDto.setAmount(x.getDepositAmount());
-                    return mDto;
-                });
+                .map(mapper::entityToDto);
     }
 
     @Override
     public Mono<MovementsDTO> saveWithdrawlMovement(MovementsDTO dto) {
         validationMovement(dto, CodesEnum.TYPE_WITHDRAWL);
         MovementsEntity entity = mapper.dtoToEntity(dto);
-        entity.setWithdrawlAmount(dto.getAmount());
-        entity.setDepositAmount(0);
+        entity.setTransactionAmount(entity.getTransactionAmount() * -1);
         entity.setDate(Calendar.getInstance().getTime());
         return repository.save(entity)
-                .map(x -> {
-                    MovementsDTO mDto = mapper.entityToDto(x);
-                    mDto.setAmount(x.getWithdrawlAmount());
-                    return mDto;
-                });
+                .map(mapper::entityToDto);
     }
 
     @Override
-    public Flux<MovementsExplainDTO> getAllMovementsByNumber(String number) {
-        return repository.findByNumber(number).map(mapper::entityDtoExplain);
+    public Flux<MovementsDTO> getAllMovementsByNumber(String number) {
+        return repository.findByNumber(number).map(mapper::entityToDto);
     }
 
     private void validationMovement(MovementsDTO dto, CodesEnum codesEnum) {
@@ -74,7 +62,7 @@ public class MovementsServiceImpl implements MovementsService {
         if (Objects.isNull(dto.getNumber())) {
             throw new InvaliteInputException("Error, el parametro 'number' es invalido");
         }
-        double amount = dto.getAmount();
+        double amount = dto.getTransactionAmount();
         if (codesEnum == CodesEnum.TYPE_DEPOSIT) {
             if (amount < MIN_DEPOSIT_AMOUNT || amount > MAX_DEPOSIT_AMOUNT) {
                 logger.debug("Error limites de deposito , nro: " + dto.getNumber() + " con monto: " + amount);
