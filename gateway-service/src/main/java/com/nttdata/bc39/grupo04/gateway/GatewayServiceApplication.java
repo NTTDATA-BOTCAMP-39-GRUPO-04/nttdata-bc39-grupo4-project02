@@ -1,6 +1,7 @@
 package com.nttdata.bc39.grupo04.gateway;
 
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
@@ -8,6 +9,6 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @EnableEurekaClient
 public class GatewayServiceApplication {
     public static void main(String[] args) {
-        System.out.println("Hello GatewayServiceApplication");
+        SpringApplication.run(GatewayServiceApplication.class, args);
     }
 }
