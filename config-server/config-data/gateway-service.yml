@@ -7,19 +7,20 @@ spring:
       discovery:
         locator:
           enabled: true
+          lower-case-service-id: true
       routes:
         - id: CUSTOMER-SERVICE
           uri: lb://CUSTOMER-SERVICE/
           predicates:
             - Path=/customer-service/**
 
-        - id: account-service
-          uri: lb://account-service
+        - id: ACCOUNT-SERVICE
+          uri: lb://ACCOUNT-SERVICE/
           predicates:
             - Path=/account-service/**
 
-        - id: movements-service
-          uri: lb://movements-service
+        - id: MOVEMENTS-SERVICE
+          uri: lb://MOVEMENTS-SERVICE/
           predicates:
             - Path=/movements-service/**
 #Eureka
