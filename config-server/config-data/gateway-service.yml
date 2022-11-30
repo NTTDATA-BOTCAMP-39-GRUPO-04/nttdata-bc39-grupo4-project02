@@ -6,8 +6,8 @@ spring:
     gateway:
       routes[0]:
         id: customer-service
-        predicates: Path=/api/customer-service/**
-        filters: StripPrefix=2
+        predicates: Path=/api/**
+        filters: StripPrefix=1
         uri: lb://customer-service
 
       routes[1]:
@@ -24,19 +24,19 @@ spring:
 
       discovery:
         locator:
-          enabled: 'true'
-          lower-case-service-id: 'true'
+          enabled: true
+          lower-case-service-id: true
 
     loadbalancer:
       ribbon:
-        enabled: 'false'
+        enabled: false
 
 #Eureka
 eureka:
   instance:
     hostname: localhost
   client:
-    fetch-registry: 'true'
-    register-with-eureka: 'true'
+    fetch-registry: true
+    register-with-eureka: true
     service-url:
       defaultZone: http://localhost:8761/eureka
