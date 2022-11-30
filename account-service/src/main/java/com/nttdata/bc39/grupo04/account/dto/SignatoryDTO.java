@@ -1,4 +1,4 @@
-package com.nttdata.bc39.grupo04.account.persistence.dto;
+package com.nttdata.bc39.grupo04.account.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HolderDTO implements Serializable {
+public class SignatoryDTO implements Serializable {
     private String code;
     private String name;
 }
