@@ -4,34 +4,30 @@ server.port: 8090
 spring:
   cloud:
     gateway:
-      routes:
-      - id: customer-service
-        predicates:
-        - Path=/v2/rest/**
-        filters: StripPrefix=2
-        uri: lb://customer-service
-
-      routes[1]:
-        id: account-service
-        predicates: Path=/api/account-service/**
-        filters: StripPrefix=2
-        uri: lb://account-service
-
-      routes[2]:
-        id: movements-service
-        predicates: Path=/api/movements-service/**
-        filters: StripPrefix=2
-        uri: lb://movements-service
-
       discovery:
         locator:
           enabled: true
-          lower-case-service-id: true
-
-    loadbalancer:
-      ribbon:
-        enabled: false
-
+      routes:
+        - id: customer-service
+          uri: lb://customer-service
+          predicates:
+            - Path=/rest/customer-service/**
+          filters:
+           - StripPrefix=2
+           -
+        - id: account-service
+          uri: lb://account-service
+          predicates:
+            - Path=/rest/account-service/**
+          filters:
+            - StripPrefix=2
+            -
+        - id: movements-service
+          uri: lb://movements-service
+          predicates:
+            - Path=/rest/movements-service/**
+          filters:
+            - StripPrefix=2
 #Eureka
 eureka:
   instance:
