@@ -7,8 +7,8 @@ spring:
       routes:
       - id: customer-service
         predicates:
-        - Path=/v2/**
-        filters: StripPrefix=1
+        - Path=/v2/rest/**
+        filters: StripPrefix=2
         uri: lb://customer-service
 
       routes[1]:
