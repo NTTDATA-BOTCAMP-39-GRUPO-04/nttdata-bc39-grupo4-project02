@@ -24,11 +24,12 @@ spring:
 
       discovery:
         locator:
-          enabled: true
-          lower-case-service-id: true
+          enabled: 'true'
+          lower-case-service-id: 'true'
+
     loadbalancer:
       ribbon:
-        enable: false
+        enabled: 'false'
 
 #Eureka
 eureka:
