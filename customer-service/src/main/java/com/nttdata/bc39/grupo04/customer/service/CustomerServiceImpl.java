@@ -82,7 +82,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
         if (!dto.getType().equals(CODE_ACCOUNT_EMPRESARIAL) &&
                 !dto.getType().equals(CODE_ACCOUNT_PERSONAL)) {
-            throw new InvaliteInputException("Error, el tipo de cuenta invalido (accountType), verifique los datos admitidos: 'PERSONAL' o 'EMPRESARIAL'");
+            throw new InvaliteInputException("Error, el tipo de cuenta invalido (accountType), verifique los datos admitidos: " + CODE_ACCOUNT_PERSONAL + " o " + CODE_ACCOUNT_EMPRESARIAL);
         }
         if (dto.getType().equals(CODE_ACCOUNT_PERSONAL) && dto.getCode().length() != LENGHT_CODE_PERSONAL_CUSTOMER) {
             throw new InvaliteInputException("Error, la longitud del codigo del cliente (code) es invalido, debe de ingresar el DNI de la persona.");
