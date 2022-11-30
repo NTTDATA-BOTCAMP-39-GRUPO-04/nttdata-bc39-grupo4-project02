@@ -1,5 +1,5 @@
 package com.nttdata.bc39.grupo04.account.service;
-import com.nttdata.bc39.grupo04.account.dto.AccountDTO;
+import com.nttdata.bc39.grupo04.account.persistence.dto.AccountDTO;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

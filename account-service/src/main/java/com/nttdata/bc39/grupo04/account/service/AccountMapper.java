@@ -1,7 +1,7 @@
 package com.nttdata.bc39.grupo04.account.service;
 
 
-import com.nttdata.bc39.grupo04.account.dto.AccountDTO;
+import com.nttdata.bc39.grupo04.account.persistence.dto.AccountDTO;
 import com.nttdata.bc39.grupo04.account.persistence.AccountEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
