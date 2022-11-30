@@ -3,8 +3,8 @@ server.port: ${PORT:${SERVER_PORT:0}}
 #Eureka
 eureka:
   client:
-    fetch-registry: 'true'
-    register-with-eureka: 'true'
+    fetch-registry: true
+    register-with-eureka: true
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     service-url:
