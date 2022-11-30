@@ -11,23 +11,23 @@ spring:
         - id: customer-service
           uri: lb://customer-service
           predicates:
-            - Path=/rest/customer-service/**
+            - Path=/customer-service/**
           filters:
-           - StripPrefix=2
-           -
+           - StripPrefix=1
+
         - id: account-service
           uri: lb://account-service
           predicates:
-            - Path=/rest/account-service/**
+            - Path=/account-service/**
           filters:
-            - StripPrefix=2
-            -
+            - StripPrefix=1
+
         - id: movements-service
           uri: lb://movements-service
           predicates:
-            - Path=/rest/movements-service/**
+            - Path=/movements-service/**
           filters:
-            - StripPrefix=2
+            - StripPrefix=1
 #Eureka
 eureka:
   instance:
