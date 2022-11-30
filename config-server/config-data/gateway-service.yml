@@ -22,8 +22,10 @@ spring:
         filters: StripPrefix=2
         uri: lb://movements-service
 
-    discovery:
-      enabled: true
+      discovery:
+        enabled: true
+        locator:
+          lower-case-service-id: true
     loadbalancer:
       ribbon:
         enable: false
