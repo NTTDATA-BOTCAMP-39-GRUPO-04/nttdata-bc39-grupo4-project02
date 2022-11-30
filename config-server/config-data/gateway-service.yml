@@ -1,0 +1,41 @@
+#Ports
+server.port: 8090
+#Spring cloud
+spring.application.name: gateway-service
+spring:
+  cloud:
+    gateway:
+      routes[0]:
+        id: customer-service
+        predicates: Path=/api/customer-service/**
+        filters: StripPrefix=2
+        uri: lb://customer-service
+
+      routes[1]:
+        id: account-service
+        predicates: Path=/api/account-service/**
+        filters: StripPrefix=2
+        uri: lb://account-service
+
+      routes[2]:
+        id: movements-service
+        predicates: Path=/api/movements-service/**
+        filters: StripPrefix=2
+        uri: lb://movements-service
+
+      discovery:
+        locator:
+          enabled: 'true'
+    loadbalancer:
+      ribbon:
+        enable: 'false'
+
+#Eureka
+eureka:
+  client:
+    fetch-registry: 'true'
+    register-with-eureka: 'true'
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    service-url:
+      defaultZone: http://localhost:8761/eureka
