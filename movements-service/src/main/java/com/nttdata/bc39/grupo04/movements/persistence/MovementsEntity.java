@@ -16,10 +16,12 @@ import java.util.Date;
 public class MovementsEntity {
     @Id
     private ObjectId id;
-    private String number;
-    private double transactionAmount;
-    private double availableAmount;
+    private String account;
+    private String transferAccount;
+    private double amount;
+    private double comission;
+    private double totalAmount;
+    private double availableBalance;
     private Date date;
-
 
 }

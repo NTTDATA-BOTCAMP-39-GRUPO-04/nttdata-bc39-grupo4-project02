@@ -5,5 +5,5 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 
 public interface MovementsRepository extends ReactiveCrudRepository<MovementsEntity, ObjectId> {
-    Flux<MovementsEntity> findByNumber(String number);
+    Flux<MovementsEntity> findByAccount(String accountNumber);
 }

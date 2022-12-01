@@ -15,8 +15,12 @@ public final class Constants {
     public static final String CODE_PRODUCT_CREDITO_EMPRESARIAL = "06";
 
     public static final int MIN_DEPOSIT_AMOUNT = 1;
-    public static final int MAX_DEPOSIT_AMOUNT = 15000;
+    public static final int MAX_DEPOSIT_AMOUNT = 5000;
     public static final int MIN_WITHDRAWAL_AMOUNT = 1;
     public static final int MAX_WITHDRAWAL_AMOUNT = 5000;
+
+    public static final int MAX_TRANSACCIONS_PER_DAY = 3;
+    public static final double COMISSION_AMOUNT_PER_TRANSACTION = 4.0;
+
 
 }
