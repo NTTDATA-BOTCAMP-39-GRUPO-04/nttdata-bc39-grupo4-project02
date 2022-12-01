@@ -1,9 +1,9 @@
 package com.nttdata.bc39.grupo04.movements.controller;
 
+import com.nttdata.bc39.grupo04.api.movements.MovementsDTO;
+import com.nttdata.bc39.grupo04.api.movements.MovementsReportDTO;
+import com.nttdata.bc39.grupo04.api.movements.MovementsService;
 import com.nttdata.bc39.grupo04.api.utils.CodesEnum;
-import com.nttdata.bc39.grupo04.movements.dto.MovementsDTO;
-import com.nttdata.bc39.grupo04.movements.dto.MovementsReportDTO;
-import com.nttdata.bc39.grupo04.movements.service.MovementsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;

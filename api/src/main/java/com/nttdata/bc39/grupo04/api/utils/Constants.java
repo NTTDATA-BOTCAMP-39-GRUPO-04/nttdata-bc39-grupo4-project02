@@ -19,8 +19,8 @@ public final class Constants {
     public static final int MIN_WITHDRAWAL_AMOUNT = 1;
     public static final int MAX_WITHDRAWAL_AMOUNT = 5000;
 
-    public static final int MAX_TRANSACCIONS_PER_DAY = 3;
+    public static final int MAX_DEPOSIT_TRANSACCION_FREE = 3;
+    public static final int MAX_WITHDRAWL_TRANSACCION_FREE = 2;
     public static final double COMISSION_AMOUNT_PER_TRANSACTION = 4.0;
-
-
+    public static final String ACCOUNT_NUMBER_OF_ATM = "CAJEROX3454554XSMP";
 }

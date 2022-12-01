@@ -1,5 +1,6 @@
 #Ports
-server.port: ${PORT:${SERVER_PORT:0}}
+#server.port: ${PORT:${SERVER_PORT:0}}
+server.port: 9092
 #Eureka
 eureka:
   client:

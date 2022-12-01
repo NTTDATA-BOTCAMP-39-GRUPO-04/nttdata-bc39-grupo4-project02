@@ -1,8 +1,6 @@
-package com.nttdata.bc39.grupo04.movements.service;
+package com.nttdata.bc39.grupo04.api.movements;
 
 import com.nttdata.bc39.grupo04.api.utils.CodesEnum;
-import com.nttdata.bc39.grupo04.movements.dto.MovementsDTO;
-import com.nttdata.bc39.grupo04.movements.dto.MovementsReportDTO;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

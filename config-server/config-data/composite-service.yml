@@ -1,0 +1,20 @@
+#Ports
+server.port: ${PORT:${SERVER_PORT:0}}
+#Eureka
+eureka:
+  client:
+    fetch-registry: 'true'
+    register-with-eureka: 'true'
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+app:
+  account-service:
+    host: product
+    port: 8080
+
+  movements-service:
+    host: movements
+    port: 8080

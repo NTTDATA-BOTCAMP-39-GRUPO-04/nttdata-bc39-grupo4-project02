@@ -2,9 +2,10 @@ package com.nttdata.bc39.grupo04.movements.service;
 
 import com.nttdata.bc39.grupo04.api.exceptions.InvaliteInputException;
 import com.nttdata.bc39.grupo04.api.exceptions.NotFoundException;
+import com.nttdata.bc39.grupo04.api.movements.MovementsDTO;
+import com.nttdata.bc39.grupo04.api.movements.MovementsReportDTO;
+import com.nttdata.bc39.grupo04.api.movements.MovementsService;
 import com.nttdata.bc39.grupo04.api.utils.CodesEnum;
-import com.nttdata.bc39.grupo04.movements.dto.MovementsDTO;
-import com.nttdata.bc39.grupo04.movements.dto.MovementsReportDTO;
 import com.nttdata.bc39.grupo04.movements.persistence.MovementsEntity;
 import com.nttdata.bc39.grupo04.movements.persistence.MovementsRepository;
 import org.apache.log4j.Logger;

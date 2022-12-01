@@ -1,7 +1,7 @@
 package com.nttdata.bc39.grupo04.movements.service;
 
-import com.nttdata.bc39.grupo04.movements.dto.MovementsDTO;
-import com.nttdata.bc39.grupo04.movements.dto.MovementsReportDTO;
+import com.nttdata.bc39.grupo04.api.movements.MovementsDTO;
+import com.nttdata.bc39.grupo04.api.movements.MovementsReportDTO;
 import com.nttdata.bc39.grupo04.movements.persistence.MovementsEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
