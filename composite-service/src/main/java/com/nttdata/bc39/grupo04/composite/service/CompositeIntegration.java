@@ -72,7 +72,28 @@ public class CompositeIntegration implements MovementsService, AccountService {
 
     @Override
     public Mono<MovementsDTO> saveWithdrawlMovement(MovementsDTO dto) {
-        return null;
+        String url = urlMovementsService + "/withdrawl";
+        try {
+            MovementsDTO movementsDTO = restTemplate.postForObject(url, dto, MovementsDTO.class);
+            if (Objects.isNull(movementsDTO)) {
+                throw new BadRequestException("Error, no se pudo establer conexión con movements-service");
+            }
+            return Mono.just(movementsDTO);
+        } catch (HttpClientErrorException ex) {
+            logger.warn("Got exception while make withdrawl " + ex.getMessage());
+            switch (ex.getStatusCode()) {
+                case NOT_FOUND:
+                    throw new NotFoundException(getErrorMessage(ex));
+                case UNPROCESSABLE_ENTITY:
+                    throw new InvaliteInputException(getErrorMessage(ex));
+                case BAD_REQUEST:
+                    throw new BadRequestException(getErrorMessage(ex));
+                default:
+                    logger.debug("Error status:" + ex.getStatusCode());
+                    logger.warn("Error body: " + ex.getResponseBodyAsString());
+                    throw ex;
+            }
+        }
     }
 
     @Override
