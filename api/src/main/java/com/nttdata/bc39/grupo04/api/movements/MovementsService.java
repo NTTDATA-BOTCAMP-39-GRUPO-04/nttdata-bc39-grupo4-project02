@@ -6,7 +6,9 @@ import reactor.core.publisher.Mono;
 
 public interface MovementsService {
 
-    Mono<MovementsDTO> saveMovement(MovementsDTO dto, CodesEnum codesEnum);
+    Mono<MovementsDTO> saveDepositMovement(MovementsDTO dto);
+
+    Mono<MovementsDTO> saveWithdrawlMovement(MovementsDTO dto);
 
     Flux<MovementsReportDTO> getAllMovementsByNumberAccount(String accountNumber);
 }

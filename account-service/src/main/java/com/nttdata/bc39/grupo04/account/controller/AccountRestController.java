@@ -1,7 +1,7 @@
 package com.nttdata.bc39.grupo04.account.controller;
 
-import com.nttdata.bc39.grupo04.account.dto.AccountDTO;
-import com.nttdata.bc39.grupo04.account.service.AccountService;
+import com.nttdata.bc39.grupo04.api.account.AccountDTO;
+import com.nttdata.bc39.grupo04.api.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;

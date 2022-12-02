@@ -1,4 +1,4 @@
-package com.nttdata.bc39.grupo04.account.dto;
+package com.nttdata.bc39.grupo04.api.account;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

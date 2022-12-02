@@ -24,11 +24,11 @@ public class MovementsController {
 
     @PostMapping("/deposit")
     Mono<MovementsDTO> saveDepositMovement(@RequestBody MovementsDTO body) {
-        return service.saveMovement(body, CodesEnum.TYPE_DEPOSIT);
+        return service.saveDepositMovement(body);
     }
 
     @PostMapping("/withdrawl")
     Mono<MovementsDTO> saveWithdrawlMovement(@RequestBody MovementsDTO body) {
-        return service.saveMovement(body, CodesEnum.TYPE_WITHDRAWL);
+        return service.saveWithdrawlMovement(body);
     }
 }

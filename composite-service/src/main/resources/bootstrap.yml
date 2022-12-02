@@ -6,3 +6,12 @@ spring:
       enabled: true
       label: master
       uri: http://localhost:9097
+
+app:
+  account-service:
+    hostname: localhost
+    port: 9092
+
+  movements-service:
+    hostname: localhost
+    port: 9095

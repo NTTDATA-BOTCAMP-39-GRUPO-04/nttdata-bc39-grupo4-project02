@@ -1,7 +1,7 @@
 package com.nttdata.bc39.grupo04.account.persistence;
 
-import com.nttdata.bc39.grupo04.account.dto.HolderDTO;
-import com.nttdata.bc39.grupo04.account.dto.SignatoryDTO;
+import com.nttdata.bc39.grupo04.api.account.HolderDTO;
+import com.nttdata.bc39.grupo04.api.account.SignatoryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

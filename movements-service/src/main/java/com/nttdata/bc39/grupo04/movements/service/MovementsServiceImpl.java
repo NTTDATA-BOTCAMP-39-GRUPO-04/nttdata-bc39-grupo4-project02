@@ -33,12 +33,20 @@ public class MovementsServiceImpl implements MovementsService {
     }
 
     @Override
-    public Mono<MovementsDTO> saveMovement(MovementsDTO dto, CodesEnum codesEnum) {
-        validationMovement(dto, codesEnum);
-        if (codesEnum == CodesEnum.TYPE_WITHDRAWL) {
-            dto.setAmount(dto.getAmount() * -1);
-            dto.setComission(dto.getComission() * -1);
-        }
+    public Mono<MovementsDTO> saveDepositMovement(MovementsDTO dto) {
+        validationMovement(dto, CodesEnum.TYPE_DEPOSIT);
+        MovementsEntity entity = mapper.dtoToEntity(dto);
+        entity.setTotalAmount(dto.getAmount() + dto.getComission());
+        entity.setDate(Calendar.getInstance().getTime());
+        return repository.save(entity)
+                .map(mapper::entityToDto);
+    }
+
+    @Override
+    public Mono<MovementsDTO> saveWithdrawlMovement(MovementsDTO dto) {
+        validationMovement(dto, CodesEnum.TYPE_WITHDRAWL);
+        dto.setAmount(dto.getAmount() * -1);
+        dto.setComission(dto.getComission() * -1);
         MovementsEntity entity = mapper.dtoToEntity(dto);
         entity.setTotalAmount(dto.getAmount() + dto.getComission());
         entity.setDate(Calendar.getInstance().getTime());

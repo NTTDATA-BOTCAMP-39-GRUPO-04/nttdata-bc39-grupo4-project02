@@ -1,9 +1,10 @@
 package com.nttdata.bc39.grupo04.account.service;
 
-import com.nttdata.bc39.grupo04.account.dto.AccountDTO;
-import com.nttdata.bc39.grupo04.account.dto.HolderDTO;
 import com.nttdata.bc39.grupo04.account.persistence.AccountEntity;
 import com.nttdata.bc39.grupo04.account.persistence.AccountRepository;
+import com.nttdata.bc39.grupo04.api.account.AccountDTO;
+import com.nttdata.bc39.grupo04.api.account.AccountService;
+import com.nttdata.bc39.grupo04.api.account.HolderDTO;
 import com.nttdata.bc39.grupo04.api.exceptions.BadRequestException;
 import com.nttdata.bc39.grupo04.api.exceptions.InvaliteInputException;
 import com.nttdata.bc39.grupo04.api.exceptions.NotFoundException;
