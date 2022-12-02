@@ -10,15 +10,6 @@ eureka:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     service-url:
       defaultZone: http://localhost:8761/eureka
-
-app:
-  account-service:
-    hostname: localhost
-    port: 9092
-
-  movements-service:
-    hostname: localhost
-    port: 9095
 ---
 spring.config.activate.on-profile: docker
 server.port: 8080
