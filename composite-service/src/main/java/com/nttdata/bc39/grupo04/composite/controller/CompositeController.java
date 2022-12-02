@@ -13,13 +13,13 @@ public class CompositeController {
     @Autowired
     private CompositeService service;
 
-    @PutMapping("/deposit/{account}")
+    @PutMapping("/depositAtm/{account}")
     Mono<MovementsDTO> makeDepositeATM(@PathVariable("account") String account,
                                        @RequestParam("amount") double amount) {
         return service.makeDepositATM(account, amount);
     }
 
-    @PutMapping("/withdrawal/{account}")
+    @PutMapping("/withdrawalAtm/{account}")
     Mono<MovementsDTO> makeWithdrawlATM(@PathVariable("account") String account,
                                         @RequestParam("amount") double amount) {
         return service.makeWithdrawnATM(account, amount);
