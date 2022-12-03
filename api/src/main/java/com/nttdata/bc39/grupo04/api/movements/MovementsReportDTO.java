@@ -13,5 +13,8 @@ public class MovementsReportDTO {
     private String account;
     private String transferAccount;
     private double amount;
+    private double comission;
+    private double totalAmount;
+    private double availableBalance;
     private Date date;
 }

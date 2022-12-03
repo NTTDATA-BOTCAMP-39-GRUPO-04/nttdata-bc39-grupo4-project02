@@ -4,5 +4,6 @@ public enum CodesEnum {
     TYPE_CREDIT,
     TYPE_ACCOUNT,
     TYPE_DEPOSIT,
-    TYPE_WITHDRAWL
+    TYPE_WITHDRAWL,
+    TYPE_TRANSFER
 }

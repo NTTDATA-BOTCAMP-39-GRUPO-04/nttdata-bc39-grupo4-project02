@@ -12,7 +12,7 @@ public interface AccountService {
 
     Mono<AccountDTO> makeDepositAccount(double amount, String accountNumber);
 
-    Mono<AccountDTO> makeWithdrawal(double amount, String accountNumber);
+    Mono<AccountDTO> makeWithdrawalAccount(double amount, String accountNumber);
 
     Mono<Void> deleteAccount(String accountNumber);
 

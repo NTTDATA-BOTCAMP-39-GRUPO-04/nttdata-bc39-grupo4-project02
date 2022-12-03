@@ -18,9 +18,9 @@ public interface MovementMapper {
 
     MovementsDTO entityToDto(MovementsEntity entity);
 
-    @Mappings({
-            @Mapping(source = "entity.totalAmount", target = "amount"),
-    })
+    //  @Mappings({
+    //        @Mapping(source = "entity.totalAmount", target = "amount"),
+    //})
     MovementsReportDTO entityToReportDto(MovementsEntity entity);
 
 }

@@ -3,6 +3,7 @@ package com.nttdata.bc39.grupo04.composite.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nttdata.bc39.grupo04.api.account.AccountDTO;
 import com.nttdata.bc39.grupo04.api.account.AccountService;
+import com.nttdata.bc39.grupo04.api.account.HolderDTO;
 import com.nttdata.bc39.grupo04.api.exceptions.BadRequestException;
 import com.nttdata.bc39.grupo04.api.exceptions.HttpErrorInfo;
 import com.nttdata.bc39.grupo04.api.exceptions.InvaliteInputException;
@@ -12,6 +13,8 @@ import com.nttdata.bc39.grupo04.api.movements.MovementsReportDTO;
 import com.nttdata.bc39.grupo04.api.movements.MovementsService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -19,7 +22,10 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
+
+import static com.nttdata.bc39.grupo04.api.utils.Constants.*;
 
 @Component
 public class CompositeIntegration implements MovementsService, AccountService {
@@ -48,24 +54,10 @@ public class CompositeIntegration implements MovementsService, AccountService {
         String url = urlMovementsService + "/deposit";
         try {
             MovementsDTO movementsDTO = restTemplate.postForObject(url, dto, MovementsDTO.class);
-            if (Objects.isNull(movementsDTO)) {
-                throw new BadRequestException("Error, no se pudo establer conexión con movements-service");
-            }
             return Mono.just(movementsDTO);
         } catch (HttpClientErrorException ex) {
-            logger.warn("Got exception while make deposit " + ex.getMessage());
-            switch (ex.getStatusCode()) {
-                case NOT_FOUND:
-                    throw new NotFoundException(getErrorMessage(ex));
-                case UNPROCESSABLE_ENTITY:
-                    throw new InvaliteInputException(getErrorMessage(ex));
-                case BAD_REQUEST:
-                    throw new BadRequestException(getErrorMessage(ex));
-                default:
-                    logger.debug("Error status:" + ex.getStatusCode());
-                    logger.warn("Error body: " + ex.getResponseBodyAsString());
-                    throw ex;
-            }
+            logger.warn("Got exception while saveDepositMovement: " + ex.getMessage());
+            throw handleHttpClientException(ex);
         }
     }
 
@@ -75,36 +67,51 @@ public class CompositeIntegration implements MovementsService, AccountService {
         String url = urlMovementsService + "/withdrawl";
         try {
             MovementsDTO movementsDTO = restTemplate.postForObject(url, dto, MovementsDTO.class);
-            if (Objects.isNull(movementsDTO)) {
-                throw new BadRequestException("Error, no se pudo establer conexión con movements-service");
-            }
             return Mono.just(movementsDTO);
         } catch (HttpClientErrorException ex) {
-            logger.warn("Got exception while make withdrawl " + ex.getMessage());
-            switch (ex.getStatusCode()) {
-                case NOT_FOUND:
-                    throw new NotFoundException(getErrorMessage(ex));
-                case UNPROCESSABLE_ENTITY:
-                    throw new InvaliteInputException(getErrorMessage(ex));
-                case BAD_REQUEST:
-                    throw new BadRequestException(getErrorMessage(ex));
-                default:
-                    logger.debug("Error status:" + ex.getStatusCode());
-                    logger.warn("Error body: " + ex.getResponseBodyAsString());
-                    throw ex;
-            }
+            logger.warn("Got exception while make saveWithdrawlMovement " + ex.getMessage());
+            throw handleHttpClientException(ex);
         }
     }
 
     @Override
     public Flux<MovementsReportDTO> getAllMovementsByNumberAccount(String accountNumber) {
-        return null;
+        String url = urlMovementsService + "/" + accountNumber;
+        try {
+            List<MovementsReportDTO> list = restTemplate.exchange(url, HttpMethod.GET, null,
+                    new ParameterizedTypeReference<List<MovementsReportDTO>>() {
+                    }).getBody();
+
+            Mono<List<MovementsReportDTO>> monoList = Mono.just(list);
+            return monoList.flatMapMany(Flux::fromIterable);
+        } catch (HttpClientErrorException ex) {
+            logger.warn("Got exception while make getAllMovementsByNumberAccount:  " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
     }
 
     //Acount
     @Override
     public Mono<AccountDTO> getByAccountNumber(String accountNumber) {
-        return null;
+        String url = urlAccountService + "/" + accountNumber;
+        try {
+            AccountDTO accountDTO = restTemplate.getForObject(url, AccountDTO.class);
+            return Mono.just(accountDTO);
+        } catch (HttpClientErrorException ex) {
+            logger.warn("Got exception while make getByAccountNumber " + ex.getMessage());
+            if (accountNumber.equals(ACCOUNT_NUMBER_OF_ATM)) {
+                AccountDTO atmAccount = new AccountDTO();
+                atmAccount.setAccount(ACCOUNT_NUMBER_OF_ATM);
+                atmAccount.setHolders(List.of(new HolderDTO("20100047218", "BANCO DE CREDITO DEL PERU")));
+                atmAccount.setCustomerId("20100047218");
+                atmAccount.setProductId(CODE_PRODUCT_CUENTA_CORRIENTE);
+                atmAccount.setAvailableBalance(INITIAL_AMOUNT_OF_ATM);
+                createAccount(atmAccount);
+                return Mono.just(atmAccount);
+            } else {
+                throw handleHttpClientException(ex);
+            }
+        }
     }
 
     @Override
@@ -114,17 +121,38 @@ public class CompositeIntegration implements MovementsService, AccountService {
 
     @Override
     public Mono<AccountDTO> createAccount(AccountDTO dto) {
-        return null;
+        String url = urlAccountService + "/save";
+        try {
+            AccountDTO accountDTO = restTemplate.postForObject(url, dto, AccountDTO.class);
+            return Mono.just(accountDTO);
+        } catch (HttpClientErrorException ex) {
+            logger.warn("Got exception while createAccount: " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
     }
 
     @Override
     public Mono<AccountDTO> makeDepositAccount(double amount, String accountNumber) {
-        return null;
+        String url = urlAccountService + "/deposit/" + accountNumber + "?amount=" + amount;
+        try {
+            AccountDTO accountDTO = restTemplate.getForObject(url, AccountDTO.class);
+            return Mono.just(accountDTO);
+        } catch (HttpClientErrorException ex) {
+            logger.warn("Got exception while makeDepositAccount: " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
     }
 
     @Override
-    public Mono<AccountDTO> makeWithdrawal(double amount, String accountNumber) {
-        return null;
+    public Mono<AccountDTO> makeWithdrawalAccount(double amount, String accountNumber) {
+        String url = urlAccountService + "/withdrawal/" + accountNumber + "?amount=" + amount;
+        try {
+            AccountDTO accountDTO = restTemplate.getForObject(url, AccountDTO.class);
+            return Mono.just(accountDTO);
+        } catch (HttpClientErrorException ex) {
+            logger.warn("Got exception while makeWithdrawalAccount: " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
     }
 
     @Override
@@ -140,4 +168,19 @@ public class CompositeIntegration implements MovementsService, AccountService {
             return io.getMessage();
         }
     }
+
+    public RuntimeException handleHttpClientException(HttpClientErrorException ex) {
+        switch (ex.getStatusCode()) {
+            case NOT_FOUND:
+                return new NotFoundException(getErrorMessage(ex));
+            case BAD_REQUEST:
+                return new BadRequestException(getErrorMessage(ex));
+            case UNPROCESSABLE_ENTITY:
+                return new InvaliteInputException(getErrorMessage(ex));
+            default:
+                return ex;
+        }
+    }
+
+
 }

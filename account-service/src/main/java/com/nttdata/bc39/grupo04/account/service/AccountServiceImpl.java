@@ -64,7 +64,11 @@ public class AccountServiceImpl implements AccountService {
     public Mono<AccountDTO> createAccount(AccountDTO dto) {
         validateCreateAccount(dto);
         AccountEntity entity = mapper.dtoToEntity(dto);
-        entity.setAccount(generateAccountNumber());
+        if (!Objects.isNull(dto.getAccount()) && dto.getAccount().equals(ACCOUNT_NUMBER_OF_ATM)) {
+            entity.setAccount(ACCOUNT_NUMBER_OF_ATM);
+        } else {
+            entity.setAccount(generateAccountNumber());
+        }
         entity.setCreateDate(Calendar.getInstance().getTime());
         return repository.save(entity)
                 .onErrorMap(DuplicateKeyException.class
@@ -95,7 +99,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Mono<AccountDTO> makeWithdrawal(double amount, String accountNumber) {
+    public Mono<AccountDTO> makeWithdrawalAccount(double amount, String accountNumber) {
         AccountEntity entity = repository.findByAccount(accountNumber).block();
         if (Objects.isNull(entity)) {
             logger.debug("Error, no existe la cuenta con Nro: " + accountNumber);
@@ -108,7 +112,7 @@ public class AccountServiceImpl implements AccountService {
         double availableBalance = entity.getAvailableBalance();
         if (amount > availableBalance) {
             logger.debug("Saldo insuficiente, cuenta con Nro:" + accountNumber);
-            throw new BadRequestException("Error,saldo insuficiente.");
+            throw new BadRequestException("Error,saldo insuficiente en cuenta Nro: " + accountNumber);
         }
         availableBalance -= amount;
         entity.setAvailableBalance(availableBalance);

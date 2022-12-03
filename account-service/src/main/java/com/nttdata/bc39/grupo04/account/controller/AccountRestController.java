@@ -28,16 +28,16 @@ public class AccountRestController {
         return service.createAccount(dto);
     }
 
-    @PutMapping("/deposit/{accountNumber}")
+    @GetMapping("/deposit/{accountNumber}")
     Mono<AccountDTO> makeDeposit(@PathVariable(value = "accountNumber") String accountNumber,
                                  @RequestParam(value = "amount") double amount) {
         return service.makeDepositAccount(amount, accountNumber);
     }
 
-    @PutMapping("/withdrawal/{accountNumber}")
+    @GetMapping("/withdrawal/{accountNumber}")
     Mono<AccountDTO> makeWithdrawal(@PathVariable(value = "accountNumber") String accountNumber,
                                     @RequestParam(value = "amount") double amount) {
-        return service.makeWithdrawal(amount, accountNumber);
+        return service.makeWithdrawalAccount(amount, accountNumber);
     }
 
     @DeleteMapping("/{accountNumber}")

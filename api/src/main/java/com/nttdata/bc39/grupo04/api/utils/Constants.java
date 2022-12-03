@@ -14,13 +14,17 @@ public final class Constants {
     public static final String CODE_PRODUCT_CREDITO_PERSONAL = "05";
     public static final String CODE_PRODUCT_CREDITO_EMPRESARIAL = "06";
 
-    public static final int MIN_DEPOSIT_AMOUNT = 1;
+    public static final int MIN_DEPOSIT_AMOUNT = 10;
     public static final int MAX_DEPOSIT_AMOUNT = 5000;
-    public static final int MIN_WITHDRAWAL_AMOUNT = 1;
+    public static final int MIN_WITHDRAWAL_AMOUNT = 10;
     public static final int MAX_WITHDRAWAL_AMOUNT = 5000;
 
-    public static final int MAX_DEPOSIT_TRANSACCION_FREE = 3;
-    public static final int MAX_WITHDRAWL_TRANSACCION_FREE = 2;
-    public static final double COMISSION_AMOUNT_PER_TRANSACTION = 4.0;
-    public static final String ACCOUNT_NUMBER_OF_ATM = "CAJEROX3454554XSMP";
+    public static final int MIN_TRANSFERENCE_AMOUNT = 5;
+    public static final int MAX_TRANSFERENCE_AMOUNT = 6000;
+
+
+    public static final int MAX_TRANSACCION_FREE = 3;
+    public static final double COMISSION_AMOUNT_PER_TRANSACTION = 10.0;
+    public static final String ACCOUNT_NUMBER_OF_ATM = "CAJEROX3SMP";
+    public static final int INITIAL_AMOUNT_OF_ATM = 20000;
 }
