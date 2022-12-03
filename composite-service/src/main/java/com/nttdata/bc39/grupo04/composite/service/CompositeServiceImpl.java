@@ -115,6 +115,28 @@ public class CompositeServiceImpl implements CompositeService {
         return Mono.just(transactionAtmDTO);
     }
 
+    @Override
+    public Flux<MovementsReportDTO> getAllMovementsByAccount(String account) {
+        integration.getByAccountNumber(account);
+        return integration.getAllMovementsByNumberAccount(account);
+    }
+
+    @Override
+    public Flux<AccountDTO> getAccountAllByCustomer(String customerId) {
+        integration.getCustomerById(customerId);
+        return integration.getAllAccountByCustomer(customerId);
+    }
+
+    @Override
+    public Mono<AccountDTO> getAccountByNumber(String accountNumber) {
+        return integration.getByAccountNumber(accountNumber);
+    }
+
+    @Override
+    public Mono<AccountDTO> createAccount(AccountDTO dto) {
+        return integration.createAccount(dto);
+    }
+
     private void validationLimitAmount(String sourceAccount, String destinationAccount,
                                        CodesEnum codesEnum, double amount) {
 

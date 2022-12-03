@@ -1,6 +1,6 @@
 package com.nttdata.bc39.grupo04.customer.service;
 
-import com.nttdata.bc39.grupo04.customer.dto.CustomerDto;
+import com.nttdata.bc39.grupo04.api.customer.CustomerDto;
 import com.nttdata.bc39.grupo04.customer.persistence.CustomerEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

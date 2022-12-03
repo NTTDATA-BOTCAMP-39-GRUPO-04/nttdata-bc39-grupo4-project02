@@ -1,8 +1,9 @@
 package com.nttdata.bc39.grupo04.customer.service;
 
+import com.nttdata.bc39.grupo04.api.customer.CustomerService;
 import com.nttdata.bc39.grupo04.api.exceptions.InvaliteInputException;
 import com.nttdata.bc39.grupo04.api.exceptions.NotFoundException;
-import com.nttdata.bc39.grupo04.customer.dto.CustomerDto;
+import com.nttdata.bc39.grupo04.api.customer.CustomerDto;
 import com.nttdata.bc39.grupo04.customer.persistence.CustomerEntity;
 import com.nttdata.bc39.grupo04.customer.persistence.CustomerRepository;
 import org.apache.log4j.Logger;
@@ -94,7 +95,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private RuntimeException throwDuplicateCustomer(String customerId) {
         logger.debug("Error, el cliente nro: " + customerId + ", ya esta registrado");
-        return new InvaliteInputException("Duplicate key, customer with code: " + customerId);
+        return new InvaliteInputException("Error,ya existe un cliente con codigo: " + customerId);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.nttdata.bc39.grupo04.customer.dto;
+package com.nttdata.bc39.grupo04.api.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

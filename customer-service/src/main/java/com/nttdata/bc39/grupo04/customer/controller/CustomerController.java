@@ -1,7 +1,7 @@
 package com.nttdata.bc39.grupo04.customer.controller;
 
-import com.nttdata.bc39.grupo04.customer.dto.CustomerDto;
-import com.nttdata.bc39.grupo04.customer.service.CustomerService;
+import com.nttdata.bc39.grupo04.api.customer.CustomerDto;
+import com.nttdata.bc39.grupo04.api.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;

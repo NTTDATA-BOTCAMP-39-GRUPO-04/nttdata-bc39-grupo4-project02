@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nttdata.bc39.grupo04.api.account.AccountDTO;
 import com.nttdata.bc39.grupo04.api.account.AccountService;
 import com.nttdata.bc39.grupo04.api.account.HolderDTO;
+import com.nttdata.bc39.grupo04.api.customer.CustomerDto;
+import com.nttdata.bc39.grupo04.api.customer.CustomerService;
 import com.nttdata.bc39.grupo04.api.exceptions.BadRequestException;
 import com.nttdata.bc39.grupo04.api.exceptions.HttpErrorInfo;
 import com.nttdata.bc39.grupo04.api.exceptions.InvaliteInputException;
@@ -23,17 +25,17 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 import static com.nttdata.bc39.grupo04.api.utils.Constants.*;
 
 @Component
-public class CompositeIntegration implements MovementsService, AccountService {
+public class CompositeIntegration implements MovementsService, AccountService, CustomerService {
 
     private final RestTemplate restTemplate;
     private static final Logger logger = Logger.getLogger(CompositeIntegration.class);
     private final String urlMovementsService;
     private final String urlAccountService;
+    private final String urlCustomerService;
     private final ObjectMapper mapper;
 
     public CompositeIntegration(RestTemplate restTemplate,
@@ -41,11 +43,14 @@ public class CompositeIntegration implements MovementsService, AccountService {
                                 @Value("${app.movements-service.host}") String movementsServiceHost,
                                 @Value("${app.movements-service.port}") String movementsServicePort,
                                 @Value("${app.account-service.host}") String accountServiceHost,
-                                @Value("${app.account-service.port}") String accountServicePort) {
+                                @Value("${app.account-service.port}") String accountServicePort,
+                                @Value("${app.customer-service.host}") String customerServiceHost,
+                                @Value("${app.customer-service.port}") String customerServicePort) {
         this.restTemplate = restTemplate;
         this.mapper = mapper;
         this.urlAccountService = String.format("http://%s:%s/%s", accountServiceHost, accountServicePort, "account");
         this.urlMovementsService = String.format("http://%s:%s/%s", movementsServiceHost, movementsServicePort, "movements");
+        this.urlCustomerService = String.format("http://%s:%s/%s", customerServiceHost, customerServicePort, "customer");
     }
 
     //Movements
@@ -116,7 +121,18 @@ public class CompositeIntegration implements MovementsService, AccountService {
 
     @Override
     public Flux<AccountDTO> getAllAccountByCustomer(String customerId) {
-        return null;
+        String url = urlAccountService + "/customer/" + customerId;
+        try {
+            List<AccountDTO> list = restTemplate.exchange(url, HttpMethod.GET, null,
+                    new ParameterizedTypeReference<List<AccountDTO>>() {
+                    }).getBody();
+
+            Mono<List<AccountDTO>> monoList = Mono.just(list);
+            return monoList.flatMapMany(Flux::fromIterable);
+        } catch (HttpClientErrorException ex) {
+            logger.warn("Got exception while make getAllAccountByCustomer:  " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
     }
 
     @Override
@@ -157,6 +173,39 @@ public class CompositeIntegration implements MovementsService, AccountService {
 
     @Override
     public Mono<Void> deleteAccount(String accountNumber) {
+        return null;
+    }
+
+
+    @Override
+    public Flux<CustomerDto> getAllCustomers() {
+        return null;
+    }
+
+    @Override
+    public Mono<CustomerDto> getCustomerById(String customerId) {
+        String url = urlCustomerService + "/" + customerId;
+        try {
+            CustomerDto dto = restTemplate.getForObject(url, CustomerDto.class);
+            return Mono.just(dto);
+        } catch (HttpClientErrorException ex) {
+            logger.warn("Got exception while getCustomerById: " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
+    }
+
+    @Override
+    public Mono<Void> deleteCustomerById(String customerId) {
+        return null;
+    }
+
+    @Override
+    public Mono<CustomerDto> createCustomer(CustomerDto customerDto) {
+        return null;
+    }
+
+    @Override
+    public Mono<CustomerDto> updateCustomerById(String customerId, CustomerDto customerDto) {
         return null;
     }
 
