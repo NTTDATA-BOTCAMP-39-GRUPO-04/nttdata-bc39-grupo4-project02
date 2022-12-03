@@ -179,7 +179,18 @@ public class CompositeIntegration implements MovementsService, AccountService, C
 
     @Override
     public Flux<CustomerDto> getAllCustomers() {
-        return null;
+        String url = urlCustomerService + "/all";
+        try {
+            List<CustomerDto> list = restTemplate.exchange(url, HttpMethod.GET, null,
+                    new ParameterizedTypeReference<List<CustomerDto>>() {
+                    }).getBody();
+
+            Mono<List<CustomerDto>> monoList = Mono.just(list);
+            return monoList.flatMapMany(Flux::fromIterable);
+        } catch (HttpClientErrorException ex) {
+            logger.warn("Got exception while make getAllCustomers:  " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
     }
 
     @Override

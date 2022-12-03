@@ -156,10 +156,10 @@ public class AccountServiceImpl implements AccountService {
 
         if (dto.getCustomerId().length() == LENGHT_CODE_EMPRESARIAL_CUSTOMER) {
             if (Objects.isNull(dto.getHolders())) {
-                throw new InvaliteInputException("Error, titular o titulares de la cuenta, invalido");
+                throw new InvaliteInputException("Error, titular o titulares de la cuenta empresarial, invalido");
             }
             if (Objects.isNull(dto.getHolders().get(0))) {
-                throw new InvaliteInputException("Error, es necesario enviar el titular o titulares de la cuenta");
+                throw new InvaliteInputException("Error, es necesario enviar el titular o titulares de la cuenta empresarial");
             }
 
             for (HolderDTO holder : dto.getHolders()) {

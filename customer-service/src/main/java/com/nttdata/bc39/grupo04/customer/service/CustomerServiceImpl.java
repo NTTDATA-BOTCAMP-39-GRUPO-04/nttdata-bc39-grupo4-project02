@@ -43,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
         Mono<CustomerEntity> entityMono = repository.findByCode(customerId);
         if (Objects.isNull(entityMono.block())) {
             logger.debug("El cliente nro: " + customerId + ",no existe");
-            throw new NotFoundException("The customer with code: " + customerId + " not exists");
+            throw new NotFoundException("Error, el cliente nro: " + customerId + ",no existe");
         }
         return entityMono.map(mapper::entityToDto);
     }
@@ -52,8 +52,8 @@ public class CustomerServiceImpl implements CustomerService {
     public Mono<Void> deleteCustomerById(String customerId) {
         Mono<CustomerEntity> entityMono = repository.findByCode(customerId);
         if (Objects.isNull(entityMono.block())) {
-            logger.debug("El cliente nro: " + customerId + ",no existe");
-            throw new NotFoundException("The customer with code: " + customerId + " not exists");
+            logger.debug("Error, el cliente nro: " + customerId + ",no existe");
+            throw new NotFoundException("Error, el cliente nro: " + customerId + ",no existe");
         }
         logger.debug("Cliente nro:" + customerId + " ,eliminado");
         return repository.deleteByCode(customerId);
@@ -103,7 +103,7 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerEntity entity = repository.findByCode(customerId).block();
         if (Objects.isNull(entity)) {
             logger.debug("El cliente nro: " + customerId + ",no existe");
-            throw new NotFoundException("The customer with code: " + customerId + " not exists");
+            throw new NotFoundException("Error, el cliente con codigo : " + customerId + " no existe");
         }
         entity.setName(customerDto.getName());
         logger.debug("cliente nro: " + customerId + ", actualizado correctamente, data=" + customerDto);

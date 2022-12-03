@@ -4,6 +4,7 @@ import com.nttdata.bc39.grupo04.api.account.AccountDTO;
 import com.nttdata.bc39.grupo04.api.composite.CompositeService;
 import com.nttdata.bc39.grupo04.api.composite.TransactionAtmDTO;
 import com.nttdata.bc39.grupo04.api.composite.TransactionTransferDTO;
+import com.nttdata.bc39.grupo04.api.customer.CustomerDto;
 import com.nttdata.bc39.grupo04.api.exceptions.NotFoundException;
 import com.nttdata.bc39.grupo04.api.movements.MovementsDTO;
 import com.nttdata.bc39.grupo04.api.movements.MovementsReportDTO;
@@ -135,6 +136,11 @@ public class CompositeServiceImpl implements CompositeService {
     @Override
     public Mono<AccountDTO> createAccount(AccountDTO dto) {
         return integration.createAccount(dto);
+    }
+
+    @Override
+    public Flux<CustomerDto> getAllCustomers() {
+        return integration.getAllCustomers();
     }
 
     private void validationLimitAmount(String sourceAccount, String destinationAccount,

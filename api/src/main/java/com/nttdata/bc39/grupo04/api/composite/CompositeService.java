@@ -1,6 +1,7 @@
 package com.nttdata.bc39.grupo04.api.composite;
 
 import com.nttdata.bc39.grupo04.api.account.AccountDTO;
+import com.nttdata.bc39.grupo04.api.customer.CustomerDto;
 import com.nttdata.bc39.grupo04.api.movements.MovementsReportDTO;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,4 +20,6 @@ public interface CompositeService {
     Mono<AccountDTO> getAccountByNumber(String accountNumber);
 
     Mono<AccountDTO> createAccount(AccountDTO dto);
+
+    Flux<CustomerDto> getAllCustomers();
 }

@@ -4,6 +4,7 @@ import com.nttdata.bc39.grupo04.api.account.AccountDTO;
 import com.nttdata.bc39.grupo04.api.composite.CompositeService;
 import com.nttdata.bc39.grupo04.api.composite.TransactionAtmDTO;
 import com.nttdata.bc39.grupo04.api.composite.TransactionTransferDTO;
+import com.nttdata.bc39.grupo04.api.customer.CustomerDto;
 import com.nttdata.bc39.grupo04.api.movements.MovementsReportDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +53,11 @@ public class CompositeController {
     @PostMapping("/account/save")
     Mono<AccountDTO> createAccount(@RequestBody AccountDTO dto) {
         return service.createAccount(dto);
+    }
+
+    @GetMapping("/customer/all")
+    Flux<CustomerDto> getAllCustomer() {
+        return service.getAllCustomers();
     }
 
 }
