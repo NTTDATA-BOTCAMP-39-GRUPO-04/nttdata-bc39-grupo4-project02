@@ -40,17 +40,21 @@ public class CompositeIntegration implements MovementsService, AccountService, C
 
     public CompositeIntegration(RestTemplate restTemplate,
                                 ObjectMapper mapper,
-                                @Value("${app.movements-service.host}") String movementsServiceHost,
-                                @Value("${app.movements-service.port}") String movementsServicePort,
-                                @Value("${app.account-service.host}") String accountServiceHost,
-                                @Value("${app.account-service.port}") String accountServicePort,
-                                @Value("${app.customer-service.host}") String customerServiceHost,
-                                @Value("${app.customer-service.port}") String customerServicePort) {
+                                @Value("${app.movements.host}") String movementsServiceHost,
+                                @Value("${app.movements.port}") String movementsServicePort,
+                                @Value("${app.account.host}") String accountServiceHost,
+                                @Value("${app.account.port}") String accountServicePort,
+                                @Value("${app.customer.host}") String customerServiceHost,
+                                @Value("${app.customer.port}") String customerServicePort) {
         this.restTemplate = restTemplate;
         this.mapper = mapper;
         this.urlAccountService = String.format("http://%s:%s/%s", accountServiceHost, accountServicePort, "account");
         this.urlMovementsService = String.format("http://%s:%s/%s", movementsServiceHost, movementsServicePort, "movements");
         this.urlCustomerService = String.format("http://%s:%s/%s", customerServiceHost, customerServicePort, "customer");
+
+        logger.debug("urlAccountService ====> "+ urlAccountService);
+        logger.debug("urlMovementsService ====> "+ urlMovementsService);
+        logger.debug("urlCustomerService ====> "+ urlCustomerService);
     }
 
     //Movements

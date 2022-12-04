@@ -9,3 +9,4 @@
 [2022-12-03 13:21:31] [ DEBUG] [CustomerServiceImpl:45] El cliente nro: 48352955,no existe
 [2022-12-03 13:27:50] [ DEBUG] [CustomerServiceImpl:45] El cliente nro: 483529545,no existe
 [2022-12-03 13:32:21] [ DEBUG] [CustomerServiceImpl:45] El cliente nro: 483529544,no existe
+[2022-12-04 10:19:09] [ DEBUG] [CustomerServiceImpl:45] El cliente nro: 48352933,no existe

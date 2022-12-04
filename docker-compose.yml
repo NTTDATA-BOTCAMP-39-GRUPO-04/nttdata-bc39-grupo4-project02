@@ -20,7 +20,7 @@ services:
       config-server:
         condition: service_started
 
-  account-service:
+  account:
     build: account-service
     mem_limit: 512m
     ports:
@@ -35,7 +35,7 @@ services:
       eureka-server:
         condition: service_started
 
-  movements-service:
+  movements:
     build: movements-service
     mem_limit: 512m
     ports:
@@ -50,7 +50,7 @@ services:
       eureka-server:
         condition: service_started
 
-  customer-service:
+  customer:
     build: customer-service
     mem_limit: 512m
     ports:
@@ -65,7 +65,7 @@ services:
       eureka-server:
         condition: service_started
 
-  composite-service:
+  composite:
     build: composite-service
     mem_limit: 512m
     ports:
@@ -79,11 +79,11 @@ services:
         condition: service_started
       eureka-server:
         condition: service_started
-      account-service:
+      account:
         condition: service_started
-      movements-service:
+      movements:
         condition: service_started
-      customer-service:
+      customer:
         condition: service_started
 
   mongodocker:

@@ -17,13 +17,13 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 
 app:
-  account-service:
+  account:
     host: localhost
     port: 9092
-  movements-service:
+  movements:
     host: localhost
     port: 9095
-  customer-service:
+  customer:
     host: localhost
     port: 9091
 ---
@@ -46,12 +46,12 @@ eureka:
       defaultZone: http://eureka-server:8761/eureka
 #Variables
 app:
-  account-service:
+  account:
     host: product-service
     port: 8080
-  movements-service:
+  movements:
     host: movements-service
     port: 8080
-  customer-service:
+  customer:
     host: customer-service
     port: 8080
