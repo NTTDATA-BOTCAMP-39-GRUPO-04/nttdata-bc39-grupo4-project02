@@ -6,3 +6,21 @@ spring:
       enabled: true
       label: master
       uri: http://localhost:9097
+
+---
+spring.config.activate.on-profile: docker
+server.port: 8080
+spring:
+  cloud:
+    config:
+      enabled: true
+      label: master
+      uri: http://config-server:8080
+#eureka
+eureka:
+  instance:
+    service-url:
+      defaultZone: http://eureka-server/eureka
+
+spring.data.mongodb.host: mongodocker
+spring.data.mongodb.uri: mongodb://mongodocker/account-db

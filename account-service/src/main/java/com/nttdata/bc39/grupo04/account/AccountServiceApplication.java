@@ -11,9 +11,9 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan("com.nttdata.bc39.grupo04")
 public class AccountServiceApplication {
 
-	public static void main(String[] args) {
-		BasicConfigurator.configure();
-		SpringApplication.run(AccountServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AccountServiceApplication.class, args);
+        BasicConfigurator.configure();
+    }
 
 }
