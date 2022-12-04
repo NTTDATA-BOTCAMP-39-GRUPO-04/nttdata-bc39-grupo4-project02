@@ -16,6 +16,9 @@ services:
       - "8761:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      config-server:
+        condition: service_started
 
   account-service:
     build: account-service
@@ -27,6 +30,10 @@ services:
     depends_on:
       mongodocker:
         condition: service_healthy
+      config-server:
+        condition: service_started
+      eureka-server:
+        condition: service_started
 
   movements-service:
     build: movements-service
@@ -38,6 +45,46 @@ services:
     depends_on:
       mongodocker:
         condition: service_healthy
+      config-server:
+        condition: service_started
+      eureka-server:
+        condition: service_started
+
+  customer-service:
+    build: customer-service
+    mem_limit: 512m
+    ports:
+      - "9091:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      mongodocker:
+        condition: service_healthy
+      config-server:
+        condition: service_started
+      eureka-server:
+        condition: service_started
+
+  composite-service:
+    build: composite-service
+    mem_limit: 512m
+    ports:
+      - "9096:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      mongodocker:
+        condition: service_healthy
+      config-server:
+        condition: service_started
+      eureka-server:
+        condition: service_started
+      account-service:
+        condition: service_started
+      movements-service:
+        condition: service_started
+      customer-service:
+        condition: service_started
 
   mongodocker:
     image: mongo:4.4.2
