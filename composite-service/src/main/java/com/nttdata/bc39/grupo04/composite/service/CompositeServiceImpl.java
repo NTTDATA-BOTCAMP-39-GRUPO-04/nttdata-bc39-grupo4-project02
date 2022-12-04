@@ -130,11 +130,13 @@ public class CompositeServiceImpl implements CompositeService {
 
     @Override
     public Mono<AccountDTO> getAccountByNumber(String accountNumber) {
+        integration.getByAccountNumber(accountNumber);
         return integration.getByAccountNumber(accountNumber);
     }
 
     @Override
     public Mono<AccountDTO> createAccount(AccountDTO dto) {
+        integration.getCustomerById(dto.getCustomerId());
         return integration.createAccount(dto);
     }
 

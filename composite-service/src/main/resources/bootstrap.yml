@@ -29,6 +29,22 @@ app:
 ---
 spring.config.activate.on-profile: docker
 server.port: 8080
+spring:
+  cloud:
+    config:
+      enabled: true
+      label: master
+      uri: http://config-server
+#eureka
+eureka:
+  client:
+    fetch-registry: 'true'
+    register-with-eureka: 'true'
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+#Variables
 app:
   account-service:
     host: product-service
