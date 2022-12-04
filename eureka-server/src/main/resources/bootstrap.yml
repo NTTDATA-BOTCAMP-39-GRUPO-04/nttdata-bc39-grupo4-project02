@@ -9,7 +9,10 @@ spring:
 
 ---
 spring.config.activate.on-profile: docker
+server.port: 8080
 spring:
   cloud:
     config:
+      enabled: true
+      label: master
       uri: http://config-server:8080
