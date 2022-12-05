@@ -8,7 +8,7 @@ import com.nttdata.bc39.grupo04.api.credit.CreditCustomerDTO;
 
 import reactor.core.publisher.Flux;
 
-@FeignClient(name = "localhost:62920/credit")
+@FeignClient(name = "credit-service")
 public interface CreditRestCustomer {
 	
 	@GetMapping(path = "/getcreditcardcustomer/{customerId}")
