@@ -20,6 +20,19 @@ services:
       config-server:
         condition: service_started
 
+  gateway-service:
+    build: gateway-service
+    mem_limit: 512m
+    ports:
+      - "8090:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      config-server:
+        condition: service_started
+      eureka-server:
+        condition: service_started
+
   account-service:
     build: account-service
     mem_limit: 512m
