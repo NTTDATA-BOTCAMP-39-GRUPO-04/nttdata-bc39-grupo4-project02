@@ -13,4 +13,5 @@ public class AvailableAmountDailyDTO {
     private Date date;
     private double availableAmount;
 
+
 }

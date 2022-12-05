@@ -65,7 +65,7 @@ public class CompositeIntegration implements MovementsService, AccountService, C
             MovementsDTO movementsDTO = restTemplate.postForObject(url, dto, MovementsDTO.class);
             return Mono.just(movementsDTO);
         } catch (HttpClientErrorException ex) {
-            logger.warn("Got exception while saveDepositMovement: " + ex.getMessage());
+            logger.warn("Got exception while CompositeIntegration::saveDepositMovement: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -78,7 +78,7 @@ public class CompositeIntegration implements MovementsService, AccountService, C
             MovementsDTO movementsDTO = restTemplate.postForObject(url, dto, MovementsDTO.class);
             return Mono.just(movementsDTO);
         } catch (HttpClientErrorException ex) {
-            logger.warn("Got exception while make saveWithdrawlMovement " + ex.getMessage());
+            logger.warn("Got exception while make CompositeIntegration::saveWithdrawlMovement " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -94,7 +94,7 @@ public class CompositeIntegration implements MovementsService, AccountService, C
             Mono<List<MovementsReportDTO>> monoList = Mono.just(list);
             return monoList.flatMapMany(Flux::fromIterable);
         } catch (HttpClientErrorException ex) {
-            logger.warn("Got exception while make getAllMovementsByNumberAccount:  " + ex.getMessage());
+            logger.warn("Got exception while make CompositeIntegration::getAllMovementsByNumberAccount:  " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -134,7 +134,7 @@ public class CompositeIntegration implements MovementsService, AccountService, C
             Mono<List<AccountDTO>> monoList = Mono.just(list);
             return monoList.flatMapMany(Flux::fromIterable);
         } catch (HttpClientErrorException ex) {
-            logger.warn("Got exception while make getAllAccountByCustomer:  " + ex.getMessage());
+            logger.warn("Got exception while make CompositeIntegration::getAllAccountByCustomer:  " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -146,7 +146,7 @@ public class CompositeIntegration implements MovementsService, AccountService, C
             AccountDTO accountDTO = restTemplate.postForObject(url, dto, AccountDTO.class);
             return Mono.just(accountDTO);
         } catch (HttpClientErrorException ex) {
-            logger.warn("Got exception while createAccount: " + ex.getMessage());
+            logger.warn("Got exception while CompositeIntegration::createAccount: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -158,7 +158,7 @@ public class CompositeIntegration implements MovementsService, AccountService, C
             AccountDTO accountDTO = restTemplate.getForObject(url, AccountDTO.class);
             return Mono.just(accountDTO);
         } catch (HttpClientErrorException ex) {
-            logger.warn("Got exception while makeDepositAccount: " + ex.getMessage());
+            logger.warn("Got exception while CompositeIntegration::makeDepositAccount: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -170,7 +170,7 @@ public class CompositeIntegration implements MovementsService, AccountService, C
             AccountDTO accountDTO = restTemplate.getForObject(url, AccountDTO.class);
             return Mono.just(accountDTO);
         } catch (HttpClientErrorException ex) {
-            logger.warn("Got exception while makeWithdrawalAccount: " + ex.getMessage());
+            logger.warn("Got exception while CompositeIntegration::makeWithdrawalAccount: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -192,7 +192,7 @@ public class CompositeIntegration implements MovementsService, AccountService, C
             Mono<List<CustomerDto>> monoList = Mono.just(list);
             return monoList.flatMapMany(Flux::fromIterable);
         } catch (HttpClientErrorException ex) {
-            logger.warn("Got exception while make getAllCustomers:  " + ex.getMessage());
+            logger.warn("Got exception while make CompositeIntegration::getAllCustomers:  " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -204,7 +204,7 @@ public class CompositeIntegration implements MovementsService, AccountService, C
             CustomerDto dto = restTemplate.getForObject(url, CustomerDto.class);
             return Mono.just(dto);
         } catch (HttpClientErrorException ex) {
-            logger.warn("Got exception while getCustomerById: " + ex.getMessage());
+            logger.warn("Got exception while CompositeIntegration::getCustomerById: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -216,7 +216,14 @@ public class CompositeIntegration implements MovementsService, AccountService, C
 
     @Override
     public Mono<CustomerDto> createCustomer(CustomerDto customerDto) {
-        return null;
+        String url = urlCustomerService+"/save";
+        try {
+            CustomerDto customer = restTemplate.postForObject(url, customerDto, CustomerDto.class);
+            return Mono.just(customer);
+        } catch (HttpClientErrorException ex) {
+            logger.warn("Got exception while CompositeIntegration::createCustomer: " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
     }
 
     @Override

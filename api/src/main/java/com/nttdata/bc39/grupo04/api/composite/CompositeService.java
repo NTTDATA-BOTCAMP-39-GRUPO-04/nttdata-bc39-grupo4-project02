@@ -23,6 +23,8 @@ public interface CompositeService {
 
     Flux<CustomerDto> getAllCustomers();
 
+    Mono<CustomerDto> createCustomer(CustomerDto customerDto);
+
     //Reports
     Flux<AvailableAmountDailyDTO> getAvailableAmountDaily(String customerId);
 }

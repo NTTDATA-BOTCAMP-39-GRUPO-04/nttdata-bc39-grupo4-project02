@@ -10,12 +10,17 @@ import com.nttdata.bc39.grupo04.api.exceptions.NotFoundException;
 import com.nttdata.bc39.grupo04.api.movements.MovementsDTO;
 import com.nttdata.bc39.grupo04.api.movements.MovementsReportDTO;
 import com.nttdata.bc39.grupo04.api.utils.CodesEnum;
+import com.nttdata.bc39.grupo04.api.utils.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.swing.text.Utilities;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -64,6 +69,7 @@ public class CompositeServiceImpl implements CompositeService {
             List<MovementsReportDTO> movementByAccount = getAllMovementsByAccount(accountDTO.getAccount())
                     .collectList().block();
             if (!Objects.isNull(movementByAccount)) {
+                movementByAccount.forEach(item -> item.setDate(DateUtils.getDateWithFormatddMMyyyy(item.getDate())));
                 movementsAllProductByCustomerList.addAll(movementByAccount);
             }
         }
@@ -168,6 +174,11 @@ public class CompositeServiceImpl implements CompositeService {
     @Override
     public Flux<CustomerDto> getAllCustomers() {
         return integration.getAllCustomers();
+    }
+
+    @Override
+    public Mono<CustomerDto> createCustomer(CustomerDto customerDto) {
+        return integration.createCustomer(customerDto);
     }
 
     private void validationLimitAmount(String sourceAccount, String destinationAccount,
