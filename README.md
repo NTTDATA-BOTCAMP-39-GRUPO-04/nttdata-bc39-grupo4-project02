@@ -14,4 +14,4 @@
 - Link: https://app.getpostman.com/join-team?invite_code=b1fe6bab75932596be7ecc6ac6d2a453&target_code=5eb88f857e171a5c86875bb78f785614
 
 ### ARQUITECTURA
-![Image text](https://drive.google.com/file/d/1Rv4Rll0WA40PUK9YrOnx_sa1SPhpmmbx/view?usp=share_link)
+![Image text](https://github.com/nelsonjaimes/nttdata-bc39-grupo4-project02/blob/master/img/proyecto02-esquema.PNG)
