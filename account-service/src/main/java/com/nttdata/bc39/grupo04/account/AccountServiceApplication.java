@@ -13,9 +13,9 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableFeignClients("com.nttdata.bc39.grupo04.api.feign")
 public class AccountServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(AccountServiceApplication.class, args);
-        BasicConfigurator.configure();
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(AccountServiceApplication.class, args);
+    BasicConfigurator.configure();
+  }
 
 }

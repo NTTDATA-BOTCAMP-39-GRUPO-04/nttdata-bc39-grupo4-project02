@@ -1,6 +1,7 @@
 package com.nttdata.bc39.grupo04.composite.controller;
 
 import com.nttdata.bc39.grupo04.api.account.AccountDTO;
+import com.nttdata.bc39.grupo04.api.composite.AvailableAmountDailyDTO;
 import com.nttdata.bc39.grupo04.api.composite.CompositeService;
 import com.nttdata.bc39.grupo04.api.composite.TransactionAtmDTO;
 import com.nttdata.bc39.grupo04.api.composite.TransactionTransferDTO;
@@ -58,6 +59,16 @@ public class CompositeController {
     @GetMapping("/customer/all")
     Flux<CustomerDto> getAllCustomer() {
         return service.getAllCustomers();
+    }
+    
+    @PostMapping("/customer/save")
+    Mono<CustomerDto> createCustomer(@RequestBody CustomerDto customerDto) {
+        return service.createCustomer(customerDto);
+    }
+
+    @GetMapping("/availableAmountDailyAVG/{customerId}")
+    Flux<AvailableAmountDailyDTO> getAvailableAmountDailyAVG(@PathVariable("customerId") String customerId) {
+        return service.getAvailableAmountDaily(customerId);
     }
 
 }
