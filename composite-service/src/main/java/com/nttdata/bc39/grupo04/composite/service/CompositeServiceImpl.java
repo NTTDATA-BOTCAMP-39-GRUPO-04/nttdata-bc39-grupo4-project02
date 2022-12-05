@@ -1,6 +1,7 @@
 package com.nttdata.bc39.grupo04.composite.service;
 
 import com.nttdata.bc39.grupo04.api.account.AccountDTO;
+import com.nttdata.bc39.grupo04.api.composite.AvailableAmountDailyDTO;
 import com.nttdata.bc39.grupo04.api.composite.CompositeService;
 import com.nttdata.bc39.grupo04.api.composite.TransactionAtmDTO;
 import com.nttdata.bc39.grupo04.api.composite.TransactionTransferDTO;
@@ -15,9 +16,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.nttdata.bc39.grupo04.api.utils.Constants.*;
 
@@ -52,6 +52,31 @@ public class CompositeServiceImpl implements CompositeService {
                 , CodesEnum.TYPE_TRANSFER);
     }
 
+    @Override
+    public Flux<AvailableAmountDailyDTO> getAvailableAmountDaily(String customerId) {
+        integration.getCustomerById(customerId);
+        List<AccountDTO> accountAllOfCustomer = getAccountAllByCustomer(customerId).collectList().block();
+        if (Objects.isNull(accountAllOfCustomer) || accountAllOfCustomer.isEmpty()) {
+            return Flux.just();
+        }
+        List<MovementsReportDTO> movementsAllProductByCustomerList = new ArrayList<>();
+        for (AccountDTO accountDTO : accountAllOfCustomer) {
+            List<MovementsReportDTO> movementByAccount = getAllMovementsByAccount(accountDTO.getAccount())
+                    .collectList().block();
+            if (!Objects.isNull(movementByAccount)) {
+                movementsAllProductByCustomerList.addAll(movementByAccount);
+            }
+        }
+        Map<Date, Double> avgAvailableBalanceMap = movementsAllProductByCustomerList.stream()
+                .collect(Collectors.groupingBy(MovementsReportDTO::getDate,
+                        Collectors.averagingDouble(MovementsReportDTO::getAvailableBalance)));
+        List<AvailableAmountDailyDTO> reportList = new ArrayList<>();
+        for (Date key : avgAvailableBalanceMap.keySet()) {
+            reportList.add(new AvailableAmountDailyDTO(key, avgAvailableBalanceMap.get(key)));
+        }
+        return Mono.just(reportList).flatMapMany(Flux::fromIterable);
+    }
+
     private Mono<TransactionAtmDTO> takeTransference(
             String sourceAccountNumber, String destinationAccountNumber, double amount, CodesEnum codesEnum) {
         integration.getByAccountNumber(sourceAccountNumber);
@@ -75,7 +100,7 @@ public class CompositeServiceImpl implements CompositeService {
         destinationMovement.setAccount(destinationAccountNumber);
         destinationMovement.setTransferAccount(sourceAccountNumber);
         destinationMovement.setAmount(newAmount);
-        destinationMovement.setComission(codesEnum == CodesEnum.TYPE_TRANSFER ? 0 : newComission);
+        destinationMovement.setComission(codesEnum == CodesEnum.TYPE_WITHDRAWL ? newComission : 0);
 
         Mono<AccountDTO> sourceAccountMono = Mono.just(new AccountDTO());
         Mono<AccountDTO> destinationAccountMono = Mono.just(new AccountDTO());
@@ -88,7 +113,7 @@ public class CompositeServiceImpl implements CompositeService {
                 break;
             case TYPE_WITHDRAWL:
                 sourceAccountMono = integration.makeWithdrawalAccount(newAmount, sourceAccountNumber);
-                destinationAccountMono = integration.makeWithdrawalAccount(newAmount, destinationAccountNumber);
+                destinationAccountMono = integration.makeWithdrawalAccount(amount, destinationAccountNumber);
                 sourceMovement.setAvailableBalance(Objects.requireNonNull(sourceAccountMono.block()).getAvailableBalance());
                 integration.saveWithdrawlMovement(sourceMovement);
                 break;
