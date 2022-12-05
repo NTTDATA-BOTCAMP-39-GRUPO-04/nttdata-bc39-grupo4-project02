@@ -71,13 +71,4 @@ public class CompositeController {
         return service.getAvailableAmountDaily(customerId);
     }
 
-    @PostMapping("/customer/save")
-    Mono<CustomerDto> createCustomer(@RequestBody CustomerDto customerDto) {
-        return service.createCustomer(customerDto);
-    }
-
-    @GetMapping("/availableAmountDailyAVG/{customerId}")
-    Flux<AvailableAmountDailyDTO> getAvailableAmountDailyAVG(@PathVariable("customerId") String customerId) {
-        return service.getAvailableAmountDaily(customerId);
-    }
 }

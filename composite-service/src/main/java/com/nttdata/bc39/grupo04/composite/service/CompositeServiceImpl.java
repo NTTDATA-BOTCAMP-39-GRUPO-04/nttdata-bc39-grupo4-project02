@@ -81,8 +81,12 @@ public class CompositeServiceImpl implements CompositeService {
 
     private Mono<TransactionAtmDTO> takeTransference(
             String sourceAccountNumber, String destinationAccountNumber, double amount, CodesEnum codesEnum) {
-        integration.getByAccountNumber(sourceAccountNumber);
-        integration.getByAccountNumber(destinationAccountNumber);
+        Mono<AccountDTO> sourceMono = integration.getByAccountNumber(sourceAccountNumber);
+        Mono<AccountDTO> destinationMono = integration.getByAccountNumber(destinationAccountNumber);
+        String productIdSource = Objects.requireNonNull(sourceMono.block()).getProductId();
+        String productIdDestination = Objects.requireNonNull(destinationMono.block()).getProductId();
+        logger.debug("productIdSource => "+ productIdSource);
+        logger.debug("productIdDestination => "+ productIdDestination);
         validationLimitAmount(sourceAccountNumber, destinationAccountNumber, codesEnum, amount);
         Flux<MovementsReportDTO> movements = integration.getAllMovementsByNumberAccount(codesEnum == CodesEnum.TYPE_TRANSFER ? sourceAccountNumber : destinationAccountNumber);
         double newAmount = amount;
@@ -96,11 +100,13 @@ public class CompositeServiceImpl implements CompositeService {
         sourceMovement.setAccount(sourceAccountNumber);
         sourceMovement.setComission(codesEnum == CodesEnum.TYPE_TRANSFER ? newComission : Math.abs(newComission));
         sourceMovement.setTransferAccount(destinationAccountNumber);
+        sourceMovement.setProductId(productIdSource);
         sourceMovement.setAmount(newAmount);
 
         MovementsDTO destinationMovement = new MovementsDTO();
         destinationMovement.setAccount(destinationAccountNumber);
         destinationMovement.setTransferAccount(sourceAccountNumber);
+        destinationMovement.setProductId(productIdDestination);
         destinationMovement.setAmount(newAmount);
         destinationMovement.setComission(codesEnum == CodesEnum.TYPE_WITHDRAWL ? newComission : 0);
 

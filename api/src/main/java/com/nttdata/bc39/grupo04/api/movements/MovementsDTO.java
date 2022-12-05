@@ -11,6 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class MovementsDTO {
     private String account;
+    private String productId;
     private String transferAccount;
     private double amount;
     private double comission;
