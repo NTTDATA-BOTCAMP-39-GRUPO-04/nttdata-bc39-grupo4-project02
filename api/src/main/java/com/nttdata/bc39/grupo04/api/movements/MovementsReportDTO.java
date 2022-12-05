@@ -12,6 +12,7 @@ import java.util.Date;
 public class MovementsReportDTO {
     private String account;
     private String transferAccount;
+    private String productId;
     private double amount;
     private double comission;
     private double totalAmount;
