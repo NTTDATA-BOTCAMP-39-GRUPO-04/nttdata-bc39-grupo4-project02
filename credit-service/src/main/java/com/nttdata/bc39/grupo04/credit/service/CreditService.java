@@ -20,4 +20,6 @@ public interface CreditService {
 	Mono<CreditDTO> makeChargeCredit(double amount, String cardNumber);
 
 	Mono<Void> deleteCredit(String creditNumber);
+	
+	Flux<CreditDTO> getAllCreditCardByCustomer(String customerId);
 }

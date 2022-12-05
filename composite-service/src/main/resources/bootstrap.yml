@@ -26,6 +26,12 @@ app:
   customer-service:
     host: localhost
     port: 9091
+  credit-service:
+    host: localhost
+    port: 9094
+  product-service:
+    host: localhost
+    port: 9093
 ---
 spring.config.activate.on-profile: docker
 server.port: 8080
@@ -54,4 +60,10 @@ app:
     port: 8080
   customer-service:
     host: customer-service
+    port: 8080
+  credit-service:
+    host: credit-service
+    port: 8080
+  product-service:
+    host: product-service
     port: 8080
