@@ -27,4 +27,5 @@ public interface CompositeService {
 
     //Reports
     Flux<AvailableAmountDailyDTO> getAvailableAmountDaily(String customerId);
+    Flux<ComissionReportDTO> getAllComissionByProduct(String fechStart, String fechEnd);
 }

@@ -33,7 +33,6 @@ public class MovementsServiceImpl implements MovementsService {
         validationMovement(dto, CodesEnum.TYPE_DEPOSIT);
         MovementsEntity entity = mapper.dtoToEntity(dto);
         entity.setTotalAmount(dto.getAmount() + dto.getComission());
-        entity.setProductId(dto.getProductId());
         entity.setDate(Calendar.getInstance().getTime());
         return repository.save(entity)
                 .map(mapper::entityToDto);
@@ -46,9 +45,13 @@ public class MovementsServiceImpl implements MovementsService {
         MovementsEntity entity = mapper.dtoToEntity(dto);
         entity.setTotalAmount(dto.getAmount() + dto.getComission());
         entity.setDate(Calendar.getInstance().getTime());
-        entity.setProductId(dto.getProductId());
         return repository.save(entity)
                 .map(mapper::entityToDto);
+    }
+
+    @Override
+    public Flux<MovementsReportDTO> getAllMovements() {
+        return repository.findAll().map(mapper::entityToReportDto);
     }
 
     @Override

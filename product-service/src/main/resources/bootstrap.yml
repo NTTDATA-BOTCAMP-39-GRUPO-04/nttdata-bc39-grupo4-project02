@@ -31,7 +31,7 @@ spring:
     config:
       enabled: true
       label: master
-      uri: http://config-server
+      uri: http://config-server:8080
 #eureka
 eureka:
   client:
@@ -40,6 +40,6 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     service-url:
-      defaultZone: http://eureka-server:8761/eureka
+      defaultZone: http://eureka-server:8080/eureka
 spring.data.mongodb.host: mongodocker
 spring.data.mongodb.uri: mongodb://mongodocker/product-db

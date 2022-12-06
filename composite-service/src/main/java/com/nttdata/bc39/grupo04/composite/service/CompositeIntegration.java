@@ -13,6 +13,8 @@ import com.nttdata.bc39.grupo04.api.exceptions.NotFoundException;
 import com.nttdata.bc39.grupo04.api.movements.MovementsDTO;
 import com.nttdata.bc39.grupo04.api.movements.MovementsReportDTO;
 import com.nttdata.bc39.grupo04.api.movements.MovementsService;
+import com.nttdata.bc39.grupo04.api.product.ProductDTO;
+import com.nttdata.bc39.grupo04.api.product.ProductService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -25,11 +27,13 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import static com.nttdata.bc39.grupo04.api.utils.Constants.*;
 
 @Component
-public class CompositeIntegration implements MovementsService, AccountService, CustomerService {
+public class CompositeIntegration implements MovementsService, AccountService, CustomerService ,
+        ProductService {
 
     private final RestTemplate restTemplate;
     private static final Logger logger = Logger.getLogger(CompositeIntegration.class);
@@ -37,6 +41,8 @@ public class CompositeIntegration implements MovementsService, AccountService, C
     private final String urlAccountService;
     private final String urlCustomerService;
     private final String urlCreditService;
+
+    private final String urlProductService;
     private final ObjectMapper mapper;
 
     public CompositeIntegration(RestTemplate restTemplate,
@@ -48,26 +54,52 @@ public class CompositeIntegration implements MovementsService, AccountService, C
                                 @Value("${app.customer-service.host}") String customerServiceHost,
                                 @Value("${app.customer-service.port}") String customerServicePort,
                                 @Value("${app.credit-service.host}") String creditServiceHost,
-                                @Value("${app.credit-service.port}") String creditServicePort) {
+                                @Value("${app.credit-service.port}") String creditServicePort,
+                                @Value("${app.product-service.host}") String productServiceHost,
+                                @Value("${app.product-service.port}") String productServicePort
+                                ) {
         this.restTemplate = restTemplate;
         this.mapper = mapper;
         this.urlAccountService = String.format("http://%s:%s/%s", accountServiceHost, accountServicePort, "account");
         this.urlMovementsService = String.format("http://%s:%s/%s", movementsServiceHost, movementsServicePort, "movements");
         this.urlCustomerService = String.format("http://%s:%s/%s", customerServiceHost, customerServicePort, "customer");
         this.urlCreditService = String.format("http://%s:%s/%s", creditServiceHost, creditServicePort, "credit");
+        this.urlProductService = String.format("http://%s:%s/%s", productServiceHost, productServicePort, "product");
 
-        logger.debug("urlAccountService ====> "+ urlAccountService);
-        logger.debug("urlMovementsService ====> "+ urlMovementsService);
-        logger.debug("urlCustomerService ====> "+ urlCustomerService);
-        logger.debug("urlCreditService ====> "+ urlCreditService);
+        logger.debug("urlAccountService ====> " + urlAccountService);
+        logger.debug("urlMovementsService ====> " + urlMovementsService);
+        logger.debug("urlCustomerService ====> " + urlCustomerService);
+        logger.debug("urlCreditService ====> " + urlCreditService);
     }
 
     //Movements
+
+
+    @Override
+    public Flux<MovementsReportDTO> getAllMovements() {
+        String url = urlMovementsService + "/all";
+        try {
+            List<MovementsReportDTO> list = restTemplate.exchange(url, HttpMethod.GET, null,
+                    new ParameterizedTypeReference<List<MovementsReportDTO>>() {
+                    }).getBody();
+            if (Objects.isNull(list)) {
+                throw new BadRequestException("Error, no se pudo establecer conexión con  la url:" + url);
+            }
+            return Mono.just(list).flatMapMany(Flux::fromIterable);
+        } catch (HttpClientErrorException ex) {
+            logger.warn("Got exception while make CompositeIntegration::getAllMovements:  " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
+    }
+
     @Override
     public Mono<MovementsDTO> saveDepositMovement(MovementsDTO dto) {
         String url = urlMovementsService + "/deposit";
         try {
             MovementsDTO movementsDTO = restTemplate.postForObject(url, dto, MovementsDTO.class);
+            if (Objects.isNull(movementsDTO)) {
+                throw new BadRequestException("Error, no se pudo establecer conexión con  la url:" + url);
+            }
             return Mono.just(movementsDTO);
         } catch (HttpClientErrorException ex) {
             logger.warn("Got exception while CompositeIntegration::saveDepositMovement: " + ex.getMessage());
@@ -81,6 +113,9 @@ public class CompositeIntegration implements MovementsService, AccountService, C
         String url = urlMovementsService + "/withdrawl";
         try {
             MovementsDTO movementsDTO = restTemplate.postForObject(url, dto, MovementsDTO.class);
+            if (Objects.isNull(movementsDTO)) {
+                throw new BadRequestException("Error, no se pudo establecer conexión con  la url:" + url);
+            }
             return Mono.just(movementsDTO);
         } catch (HttpClientErrorException ex) {
             logger.warn("Got exception while make CompositeIntegration::saveWithdrawlMovement " + ex.getMessage());
@@ -221,7 +256,7 @@ public class CompositeIntegration implements MovementsService, AccountService, C
 
     @Override
     public Mono<CustomerDto> createCustomer(CustomerDto customerDto) {
-        String url = urlCustomerService+"/save";
+        String url = urlCustomerService + "/save";
         try {
             CustomerDto customer = restTemplate.postForObject(url, customerDto, CustomerDto.class);
             return Mono.just(customer);
@@ -243,6 +278,44 @@ public class CompositeIntegration implements MovementsService, AccountService, C
         } catch (IOException io) {
             return io.getMessage();
         }
+    }
+
+    //PRODUCT
+
+
+    @Override
+    public Flux<ProductDTO> getAllProducts() {
+        return null;
+    }
+
+    @Override
+    public Mono<ProductDTO> getProductByCode(String code) {
+        String url = urlProductService+"/findByCode/"+code;
+        try {
+            ProductDTO dto = restTemplate.getForObject(url, ProductDTO.class);
+            if (Objects.isNull(dto)) {
+                throw new BadRequestException("Error, no se pudo establecer conexión con  la url:" + url);
+            }
+            return Mono.just(dto);
+        } catch (HttpClientErrorException ex) {
+            logger.warn("Got exception while CompositeIntegration::getProductByCode: " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
+    }
+
+    @Override
+    public Mono<ProductDTO> createProduct(ProductDTO dto) {
+        return null;
+    }
+
+    @Override
+    public Mono<ProductDTO> updateProduct(ProductDTO dto) {
+        return null;
+    }
+
+    @Override
+    public Mono<Void> deleteProductByCode(String code) {
+        return null;
     }
 
     public RuntimeException handleHttpClientException(HttpClientErrorException ex) {

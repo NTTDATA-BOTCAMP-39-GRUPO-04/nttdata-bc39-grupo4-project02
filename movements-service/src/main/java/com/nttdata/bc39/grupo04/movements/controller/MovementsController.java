@@ -30,4 +30,9 @@ public class MovementsController {
     Mono<MovementsDTO> saveWithdrawlMovement(@RequestBody MovementsDTO body) {
         return service.saveWithdrawlMovement(body);
     }
+
+    @GetMapping("/all")
+    Flux<MovementsReportDTO> getAllMovements() {
+        return service.getAllMovements();
+    }
 }

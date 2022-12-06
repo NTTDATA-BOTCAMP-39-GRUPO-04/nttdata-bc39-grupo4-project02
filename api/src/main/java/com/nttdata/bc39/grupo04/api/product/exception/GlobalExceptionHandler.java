@@ -1,7 +1,7 @@
-package com.nttdata.bc39.grupo04.product.exception;
+package com.nttdata.bc39.grupo04.api.product.exception;
 
-import java.io.Serializable;
-
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import lombok.Data;
+import java.io.Serializable;
 
 @ControllerAdvice
 @JsonSerialize

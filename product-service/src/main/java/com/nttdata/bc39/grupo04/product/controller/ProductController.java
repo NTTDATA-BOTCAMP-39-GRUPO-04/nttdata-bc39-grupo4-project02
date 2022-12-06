@@ -5,9 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.nttdata.bc39.grupo04.product.dto.ProductDTO;
-import com.nttdata.bc39.grupo04.product.service.ProductService;
-import com.nttdata.bc39.grupo04.product.service.ProductServiceImpl;
+import com.nttdata.bc39.grupo04.api.product.ProductDTO;
+import com.nttdata.bc39.grupo04.api.product.ProductService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

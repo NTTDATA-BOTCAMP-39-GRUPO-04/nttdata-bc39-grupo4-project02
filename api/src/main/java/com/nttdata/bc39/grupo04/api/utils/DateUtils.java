@@ -7,12 +7,22 @@ import java.util.Objects;
 
 public final class DateUtils {
 
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     public static Date getDateWithFormatddMMyyyy(Date date) {
         if (Objects.isNull(date)) return null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dateWithFormat = simpleDateFormat.format(date);
         try {
             return simpleDateFormat.parse(dateWithFormat);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    public static Date convertStringToDate(String fech) {
+        if (Objects.isNull(fech)) return null;
+        try {
+            return simpleDateFormat.parse(fech);
         } catch (ParseException e) {
             return null;
         }

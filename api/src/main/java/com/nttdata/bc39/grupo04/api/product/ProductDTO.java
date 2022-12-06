@@ -1,29 +1,25 @@
-package com.nttdata.bc39.grupo04.product.dto;
+package com.nttdata.bc39.grupo04.api.product;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nttdata.bc39.grupo04.api.product.enumerator.Enum;
+import com.nttdata.bc39.grupo04.api.product.enumerator.TypeProductEnum;
+import com.nttdata.bc39.grupo04.api.product.exception.ServiceException;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotBlank;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nttdata.bc39.grupo04.product.exception.ServiceException;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.util.CollectionUtils;
-
-import com.nttdata.bc39.grupo04.product.enumerator.Enum;
-import com.nttdata.bc39.grupo04.product.enumerator.TypeProductEnum;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -44,7 +40,7 @@ public class ProductDTO implements Serializable{
 	
 	@JsonProperty("typeProduct")
 	@NotBlank(message = "Error, tipo de producto inválido")
-	@Enum(enumClass=TypeProductEnum.class, ignoreCase=true) 
+	@Enum(enumClass= TypeProductEnum.class, ignoreCase=true)
 	private String typeProduct;
 
 	public static ProductDTO of(Object object) throws ServiceException {

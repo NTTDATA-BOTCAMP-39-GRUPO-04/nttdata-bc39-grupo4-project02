@@ -1,8 +1,8 @@
-package com.nttdata.bc39.grupo04.product.exception;
-
-import java.io.Serializable;
+package com.nttdata.bc39.grupo04.api.product.exception;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import java.io.Serializable;
 
 
 @JsonSerialize

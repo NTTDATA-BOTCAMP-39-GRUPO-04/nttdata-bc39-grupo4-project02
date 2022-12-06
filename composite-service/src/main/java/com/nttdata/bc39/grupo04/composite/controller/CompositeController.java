@@ -1,10 +1,7 @@
 package com.nttdata.bc39.grupo04.composite.controller;
 
 import com.nttdata.bc39.grupo04.api.account.AccountDTO;
-import com.nttdata.bc39.grupo04.api.composite.AvailableAmountDailyDTO;
-import com.nttdata.bc39.grupo04.api.composite.CompositeService;
-import com.nttdata.bc39.grupo04.api.composite.TransactionAtmDTO;
-import com.nttdata.bc39.grupo04.api.composite.TransactionTransferDTO;
+import com.nttdata.bc39.grupo04.api.composite.*;
 import com.nttdata.bc39.grupo04.api.customer.CustomerDto;
 import com.nttdata.bc39.grupo04.api.movements.MovementsReportDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +17,12 @@ public class CompositeController {
     private CompositeService service;
 
     @PutMapping("/depositAtm/{account}")
-    Mono<TransactionAtmDTO> makeDepositeATM(@PathVariable("account") String account,
-                                            @RequestParam("amount") double amount) {
+    Mono<TransactionAtmDTO> makeDepositeATM(@PathVariable("account") String account, @RequestParam("amount") double amount) {
         return service.makeDepositATM(account, amount);
     }
 
     @PutMapping("/withdrawalAtm/{account}")
-    Mono<TransactionAtmDTO> makeWithdrawlATM(@PathVariable("account") String account,
-                                             @RequestParam("amount") double amount) {
+    Mono<TransactionAtmDTO> makeWithdrawlATM(@PathVariable("account") String account, @RequestParam("amount") double amount) {
         return service.makeWithdrawnATM(account, amount);
     }
 
@@ -60,7 +55,7 @@ public class CompositeController {
     Flux<CustomerDto> getAllCustomer() {
         return service.getAllCustomers();
     }
-    
+
     @PostMapping("/customer/save")
     Mono<CustomerDto> createCustomer(@RequestBody CustomerDto customerDto) {
         return service.createCustomer(customerDto);
@@ -71,4 +66,9 @@ public class CompositeController {
         return service.getAvailableAmountDaily(customerId);
     }
 
+    @GetMapping("/report/totalComissionByProduct")
+    Flux<ComissionReportDTO> getTotalComissionByProduct(@RequestParam("fechStart") String fechStart,
+                                                        @RequestParam("fechEnd") String fechEnd) {
+        return service.getAllComissionByProduct(fechStart, fechEnd);
+    }
 }

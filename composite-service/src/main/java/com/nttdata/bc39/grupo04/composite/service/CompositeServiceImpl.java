@@ -1,15 +1,15 @@
 package com.nttdata.bc39.grupo04.composite.service;
 
 import com.nttdata.bc39.grupo04.api.account.AccountDTO;
-import com.nttdata.bc39.grupo04.api.composite.AvailableAmountDailyDTO;
-import com.nttdata.bc39.grupo04.api.composite.CompositeService;
-import com.nttdata.bc39.grupo04.api.composite.TransactionAtmDTO;
-import com.nttdata.bc39.grupo04.api.composite.TransactionTransferDTO;
+import com.nttdata.bc39.grupo04.api.composite.*;
 import com.nttdata.bc39.grupo04.api.customer.CustomerDto;
+import com.nttdata.bc39.grupo04.api.exceptions.InvaliteInputException;
 import com.nttdata.bc39.grupo04.api.exceptions.NotFoundException;
 import com.nttdata.bc39.grupo04.api.movements.MovementsDTO;
 import com.nttdata.bc39.grupo04.api.movements.MovementsReportDTO;
+import com.nttdata.bc39.grupo04.api.product.ProductDTO;
 import com.nttdata.bc39.grupo04.api.utils.CodesEnum;
+import com.nttdata.bc39.grupo04.api.utils.Constants;
 import com.nttdata.bc39.grupo04.api.utils.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,11 +61,7 @@ public class CompositeServiceImpl implements CompositeService {
             return Flux.just();
         }
         List<MovementsReportDTO> movementsAllProductByCustomerList = new ArrayList<>();
-<<<<<<< HEAD
-        accountAllOfCustomer.forEach( account -> {
-=======
         accountAllOfCustomer.forEach(account -> {
->>>>>>> 2b31433a6598156a038d608f6db300637c4f3bff
             List<MovementsReportDTO> movementByAccount = getAllMovementsByAccount(account.getAccount())
                     .collectList().block();
             if (!Objects.isNull(movementByAccount)) {
@@ -77,10 +73,39 @@ public class CompositeServiceImpl implements CompositeService {
                 .collect(Collectors.groupingBy(MovementsReportDTO::getDate,
                         Collectors.averagingDouble(MovementsReportDTO::getAvailableBalance)));
         List<AvailableAmountDailyDTO> reportList = new ArrayList<>();
-        for (Date key : avgAvailableBalanceMap.keySet()) {
-            reportList.add(new AvailableAmountDailyDTO(key, avgAvailableBalanceMap.get(key)));
-        }
+        avgAvailableBalanceMap.keySet().forEach(key -> reportList.add(new AvailableAmountDailyDTO(key,
+                avgAvailableBalanceMap.get(key))));
         return Mono.just(reportList).flatMapMany(Flux::fromIterable);
+    }
+
+    @Override
+    public Flux<ComissionReportDTO> getAllComissionByProduct(String fechStart, String fechEnd) {
+        if (Objects.isNull(fechStart) || Objects.isNull(fechEnd)) {
+            throw new InvaliteInputException("Error, las fechas ingresadas son invalidad , formato requerido : dd/mm/yyyy");
+        }
+        Date startDate = DateUtils.convertStringToDate(fechStart);
+        Date endDate = DateUtils.convertStringToDate(fechEnd);
+        if (Objects.isNull(startDate) || Objects.isNull(endDate)) {
+            throw new InvaliteInputException("Error, las fechas ingresadas son invalidad , formato requerido : dd/mm/yyyy");
+        }
+        Flux<MovementsReportDTO> movementsAll = integration.getAllMovements()
+                .map(movement -> {
+                    movement.setDate(DateUtils.getDateWithFormatddMMyyyy(movement.getDate()));
+                    return movement;
+                }).filter(x -> x.getDate().compareTo(startDate) >= 0 && x.getDate().compareTo(endDate) <= 0);
+
+        Map<String, Double> comissionMap = movementsAll.toStream()
+                .peek(item -> item.setComission(Math.abs(item.getComission())))
+                .collect(Collectors.groupingBy(MovementsReportDTO::getProductId,
+                        Collectors.summingDouble(MovementsReportDTO::getComission)));
+
+        List<ComissionReportDTO> comissionList = new ArrayList<>(List.of());
+        comissionMap.keySet().forEach(key -> {
+            comissionList.add(new ComissionReportDTO(key
+                    , Constants.getNameProduct(key)
+                    , comissionMap.get(key)));
+        });
+        return Mono.just(comissionList).flatMapMany(Flux::fromIterable);
     }
 
     private Mono<TransactionAtmDTO> takeTransference(
@@ -89,10 +114,11 @@ public class CompositeServiceImpl implements CompositeService {
         Mono<AccountDTO> destinationMono = integration.getByAccountNumber(destinationAccountNumber);
         String productIdSource = Objects.requireNonNull(sourceMono.block()).getProductId();
         String productIdDestination = Objects.requireNonNull(destinationMono.block()).getProductId();
-        logger.debug("productIdSource => "+ productIdSource);
-        logger.debug("productIdDestination => "+ productIdDestination);
+        logger.debug("productIdSource => " + productIdSource);
+        logger.debug("productIdDestination => " + productIdDestination);
         validationLimitAmount(sourceAccountNumber, destinationAccountNumber, codesEnum, amount);
-        Flux<MovementsReportDTO> movements = integration.getAllMovementsByNumberAccount(codesEnum == CodesEnum.TYPE_TRANSFER ? sourceAccountNumber : destinationAccountNumber);
+        Flux<MovementsReportDTO> movements = integration.getAllMovementsByNumberAccount(codesEnum ==
+                CodesEnum.TYPE_TRANSFER ? sourceAccountNumber : destinationAccountNumber);
         double newAmount = amount;
         double newComission = 0;
         if (Objects.requireNonNull(movements.collectList().block()).size() >= MAX_TRANSACCION_FREE) {

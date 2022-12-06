@@ -1,4 +1,4 @@
-package com.nttdata.bc39.grupo04.product.enumerator;
+package com.nttdata.bc39.grupo04.api.product.enumerator;
 
 public enum TypeProductEnum {
 	CUENTA_BANCARIA("CUENTA BANCARIA"), CREDITO("CREDITO");

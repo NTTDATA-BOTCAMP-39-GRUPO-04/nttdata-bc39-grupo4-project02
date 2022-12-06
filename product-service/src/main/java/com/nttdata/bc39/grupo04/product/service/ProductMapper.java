@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import com.nttdata.bc39.grupo04.product.dto.ProductDTO;
+import com.nttdata.bc39.grupo04.api.product.ProductDTO;
 import com.nttdata.bc39.grupo04.product.persistence.ProductEntity;
 
 @Mapper(componentModel = "spring")

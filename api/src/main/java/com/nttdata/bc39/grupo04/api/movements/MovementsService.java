@@ -11,4 +11,6 @@ public interface MovementsService {
     Mono<MovementsDTO> saveWithdrawlMovement(MovementsDTO dto);
 
     Flux<MovementsReportDTO> getAllMovementsByNumberAccount(String accountNumber);
+
+    Flux<MovementsReportDTO> getAllMovements();
 }
