@@ -61,4 +61,9 @@ public class CreditController {
 	Mono<Void> deleteCredit(@PathVariable(value = "creditNumber") String creditNumber) {
 		return service.deleteCredit(creditNumber);
 	}
+	
+	@GetMapping(value = "/getcreditcardcustomer/{customerId}")
+	Flux<CreditDTO> getAllCreditCardByCustomer(@PathVariable(value = "customerId") String customerId) {
+		return service.getAllCreditCardByCustomer(customerId);
+	}
 }

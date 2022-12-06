@@ -36,6 +36,7 @@ public class CompositeIntegration implements MovementsService, AccountService, C
     private final String urlMovementsService;
     private final String urlAccountService;
     private final String urlCustomerService;
+    private final String urlCreditService;
     private final ObjectMapper mapper;
 
     public CompositeIntegration(RestTemplate restTemplate,
@@ -45,16 +46,20 @@ public class CompositeIntegration implements MovementsService, AccountService, C
                                 @Value("${app.account-service.host}") String accountServiceHost,
                                 @Value("${app.account-service.port}") String accountServicePort,
                                 @Value("${app.customer-service.host}") String customerServiceHost,
-                                @Value("${app.customer-service.port}") String customerServicePort) {
+                                @Value("${app.customer-service.port}") String customerServicePort,
+                                @Value("${app.credit-service.host}") String creditServiceHost,
+                                @Value("${app.credit-service.port}") String creditServicePort) {
         this.restTemplate = restTemplate;
         this.mapper = mapper;
         this.urlAccountService = String.format("http://%s:%s/%s", accountServiceHost, accountServicePort, "account");
         this.urlMovementsService = String.format("http://%s:%s/%s", movementsServiceHost, movementsServicePort, "movements");
         this.urlCustomerService = String.format("http://%s:%s/%s", customerServiceHost, customerServicePort, "customer");
+        this.urlCreditService = String.format("http://%s:%s/%s", creditServiceHost, creditServicePort, "credit");
 
         logger.debug("urlAccountService ====> "+ urlAccountService);
         logger.debug("urlMovementsService ====> "+ urlMovementsService);
         logger.debug("urlCustomerService ====> "+ urlCustomerService);
+        logger.debug("urlCreditService ====> "+ urlCreditService);
     }
 
     //Movements

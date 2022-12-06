@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransferDTO {
-    String sourceAccount;
-    String destinationAccount;
-    double amount;
-    double commision;
-    double availableBalance;
+  String sourceAccount;
+  String destinationAccount;
+  double amount;
+  double commision;
+  double availableBalance;
 }

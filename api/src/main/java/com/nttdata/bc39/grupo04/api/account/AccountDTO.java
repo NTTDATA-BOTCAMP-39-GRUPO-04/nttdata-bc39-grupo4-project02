@@ -13,7 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountDTO implements Serializable {
-    private String account;
+
+	private static final long serialVersionUID = 3394199549879214551L;
+	private String account;
     private String productId;
     private String customerId;
     private List<HolderDTO> holders;
@@ -23,6 +25,12 @@ public class AccountDTO implements Serializable {
     private Date createDate;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modifyDate;
+    private boolean hasMinAmountDailyAverage;
+    private double minAmountDailyAverage;
+    private boolean hasMaintenanceFee;
+    private double maintenanceFee;
+    private int maxMovements;
+    
 
     public String getAccount() {
         return account;

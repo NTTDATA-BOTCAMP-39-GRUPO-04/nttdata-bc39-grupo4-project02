@@ -60,7 +60,7 @@ public class CompositeController {
     Flux<CustomerDto> getAllCustomer() {
         return service.getAllCustomers();
     }
-
+    
     @PostMapping("/customer/save")
     Mono<CustomerDto> createCustomer(@RequestBody CustomerDto customerDto) {
         return service.createCustomer(customerDto);

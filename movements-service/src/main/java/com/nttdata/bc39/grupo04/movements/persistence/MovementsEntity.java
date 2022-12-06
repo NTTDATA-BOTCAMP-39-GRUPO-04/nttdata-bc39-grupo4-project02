@@ -17,6 +17,7 @@ public class MovementsEntity {
     @Id
     private ObjectId id;
     private String account;
+    private String productId;
     private String transferAccount;
     private double amount;
     private double comission;
