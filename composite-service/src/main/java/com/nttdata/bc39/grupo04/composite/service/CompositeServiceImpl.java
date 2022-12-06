@@ -61,14 +61,14 @@ public class CompositeServiceImpl implements CompositeService {
             return Flux.just();
         }
         List<MovementsReportDTO> movementsAllProductByCustomerList = new ArrayList<>();
-        for (AccountDTO accountDTO : accountAllOfCustomer) {
-            List<MovementsReportDTO> movementByAccount = getAllMovementsByAccount(accountDTO.getAccount())
+        accountAllOfCustomer.forEach( account -> {
+            List<MovementsReportDTO> movementByAccount = getAllMovementsByAccount(account.getAccount())
                     .collectList().block();
             if (!Objects.isNull(movementByAccount)) {
                 movementByAccount.forEach(item -> item.setDate(DateUtils.getDateWithFormatddMMyyyy(item.getDate())));
                 movementsAllProductByCustomerList.addAll(movementByAccount);
             }
-        }
+        });
         Map<Date, Double> avgAvailableBalanceMap = movementsAllProductByCustomerList.stream()
                 .collect(Collectors.groupingBy(MovementsReportDTO::getDate,
                         Collectors.averagingDouble(MovementsReportDTO::getAvailableBalance)));
